@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<!-- Basic Page Needs
+================================================== -->
+<title>Jobby</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<!-- CSS
+================================================== -->
+<link rel="stylesheet" href="/static/css/style.css?u={{ last_updated }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/colors/blue.css') }}">
+
+</head>
+<body>
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+<!-- Header Container
+================================================== -->
+{% include 'header.html' %}
+<div class="clearfix"></div>
+<!-- Header Container / End -->
+
+<!-- Titlebar
+================================================== -->
+<div id="titlebar" class="gradient">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+
+				<h2>Kaydol</h2>
+
+				<!-- Breadcrumbs -->
+				<nav id="breadcrumbs" class="dark">
+					<ul>
+						<li><a href="{{ url_for('public.index') }}">Anasayfa</a></li>
+						<li>Kaydol</li>
+					</ul>
+				</nav>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Page Content
+================================================== -->
+<div class="container">
+	<div class="row">
+		<div class="col-xl-5 offset-xl-3">
+
+			<div class="login-register-page">
+				<!-- Welcome Text -->
+				<div class="welcome-text">
+					<h3 style="font-size: 26px;">Hadi hesabınızı oluşturalım</h3>
+					<span>Zaten bir hesabınız var mı? <a href="{{ url_for('account.login') }}">Giriş Yap</a></span>
+				</div>
+
+				{% for message in get_flashed_messages() %}
+				<div class="notification error closeable">
+					<p>{{ message }}</p>
+					<a class="close" href="#"></a>
+				</div>
+				{% endfor %}
+
+				<!-- Form -->
+				<form method="post" action="{{ url_for('account.signup') }}" id="register-account-form">
+					<input type='hidden' name="csrf_token" value="{{ csrf_token() }}"/>
+					<div class="input-with-icon-left">
+						<i class="icon-feather-user"></i>
+						<input type="text" class="input-text with-border" name="name" id="name" placeholder="İsminiz"/>
+					</div>
+
+					<p id="errorName" style="color: red"></p>
+
+					<div class="input-with-icon-left">
+						<i class="icon-material-outline-person-pin"></i>
+						<input type="text" class="input-text with-border" name="surname" id="surname" placeholder="Soy İsminiz"/>
+					</div>
+
+					<p id="errorLastName" style="color: red"></p>
+
+					<div class="input-with-icon-left">
+						<i class="icon-material-baseline-mail-outline"></i>
+						<input type="text" class="input-text with-border" name="email" id="emailaddress-register" placeholder="Email"/>
+					</div>
+
+					<p id="errorEmail" style="color: red"></p>
+
+					<div class="input-with-icon-left" title="Şifreniz en az 6 karakter olmalı" data-tippy-placement="bottom">
+						<i class="icon-material-outline-lock"></i>
+						<input type="password" class="input-text with-border" name="password" id="password-register" placeholder="Şifreniz"/>
+					</div>
+
+					<p id="errorPassword" style="color: red"></p>
+
+					<div class="input-with-icon-left">
+						<i class="icon-material-outline-lock"></i>
+						<input type="password" class="input-text with-border" name="confirm" id="password-repeat-register" placeholder="Şifre Tekrar"/>
+					</div>
+
+					<p id="errorConfirm" style="color: red"></p>
+
+					<button class="button full-width button-sliding-icon ripple-effect margin-top-10" type="submit" form="register-account-form">Kaydol <i class="icon-material-outline-arrow-right-alt"></i></button>
+
+				</form>
+
+				<noscript>
+						<style>
+							#register-account-form {
+								display: none;
+							}
+						</style>
+						<p style="color: red">Javascript devre dışı giriş için aktif hale getirin</p>
+				</noscript>
+
+				<!-- Button -->
+				<!-- Social Login -->
+
+				<!-- <div class="social-login-separator"><span>or</span></div>
+				<div class="social-login-buttons">
+					<button class="facebook-login ripple-effect"><i class="icon-brand-facebook-f"></i> Register via Facebook</button>
+					<button class="google-login ripple-effect"><i class="icon-brand-google-plus-g"></i> Register via Google+</button>
+				</div> -->
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+<!-- Spacer -->
+<div class="margin-top-70"></div>
+<!-- Spacer / End-->
+
+<!-- Footer
+================================================== -->
+
+<!-- Footer / End -->
+
+</div>
+<!-- Wrapper / End -->
+
+<!-- Scripts
+================================================== -->
+<script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/jquery-migrate-3.0.0.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/mmenu.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/tippy.all.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/simplebar.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap-slider.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap-select.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/snackbar.js')}}"></script>
+<script src="{{ url_for('static', filename='js/clipboard.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/counterup.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/magnific-popup.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/slick.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/custom.js')}}"></script>
+<script src="{{ url_for('static', filename='js/formVal.js')}}"></script>
+
+<!-- Snackbar // documentation: https://www.polonel.com/snackbar/ -->
+<script>
+// Snackbar for user status switcher
+$('#snackbar-user-status label').click(function() {
+	Snackbar.show({
+		text: 'Statunuz değiştirildi!',
+		pos: 'bottom-center',
+		showAction: false,
+		actionText: "Dismiss",
+		duration: 3000,
+		textColor: '#fff',
+		backgroundColor: '#383838'
+	});
+});
+</script>
+
+</body>
+</html>
