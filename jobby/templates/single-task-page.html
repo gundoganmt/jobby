@@ -25,8 +25,6 @@
 <div class="clearfix"></div>
 <!-- Header Container / End -->
 
-
-
 <!-- Titlebar
 ================================================== -->
 <div class="single-page-header" data-background-image="images/single-task.jpg">
@@ -35,13 +33,21 @@
 			<div class="col-md-12">
 				<div class="single-page-header-inner">
 					<div class="left-side">
-						<div class="header-image"><a href="{{ url_for('public.freelancer', user_id=task.poster.id)}}"><img src="{{ url_for('static', filename='images/'+task.poster.profile_picture) }}" alt=""></a></div>
+						{% if task.poster.status == 'employer' %}
+							<div class="header-image"><img src="{{ url_for('static', filename='images/'+task.poster.profile_picture) }}" alt=""></a></div>
+						{% else %}
+							<div class="header-image"><a href="{{ url_for('public.freelancer', user_id=task.poster.id)}}"><img src="{{ url_for('static', filename='images/'+task.poster.profile_picture) }}" alt=""></a></div>
+						{% endif %}
 						<div class="header-details">
 							<h3>{{ task }}</h3>
 							<h5>İşveren Hakkında</h5>
 							<ul>
-								<li><a href="{{ url_for('public.freelancer', user_id=task.poster.id) }}"><i class="icon-material-outline-business"></i> {{ task.poster }}</a></li>
-								<li> {{ task.poster.province }}</li>
+								{% if task.poster.status == 'employer' %}
+									<li><i class="icon-material-outline-business"></i> {{ task.poster }}</a></li>
+								{% else %}
+									<li><a href="{{ url_for('public.freelancer', user_id=task.poster.id) }}"><i class="icon-material-outline-business"></i> {{ task.poster }}</a></li>
+								{% endif %}
+								<li> {{ task.location }}</li>
 								<li><div class="verified-badge-with-title">Onaylandı</div></li>
 							</ul>
 						</div>
@@ -107,9 +113,9 @@
 								<div class="freelancer-name">
 									<h4><a href="{{ url_for('public.freelancer', user_id=bidder.bidder.id)}}">{{ bidder.bidder }} </a></h4>
 									{% if bidder.bidder.rating == 0 %}
-									<div class="star-rating" data-rating="4.2"></div>
+										<div class="star-rating" data-rating="4.2"></div>
 									{% else %}
-									<div class="star-rating" data-rating="{{ bidder.bidder.rating }}"></div>
+										<div class="star-rating" data-rating="{{ bidder.bidder.rating }}"></div>
 									{% endif %}
 								</div>
 							</div>
@@ -133,9 +139,6 @@
 		<!-- Sidebar -->
 		<div class="col-xl-4 col-lg-4">
 			<div class="sidebar-container">
-
-				<div class="countdown green margin-bottom-35">6 gun, 15 saat kaldı</div>
-
 				<div class="sidebar-widget">
 					<div class="job-overview">
 						<div class="job-overview-headline">İlan Detayı</div>
@@ -179,7 +182,7 @@
 
 								<!-- Price Slider -->
 								<div class="bidding-value">TL<span id="biddingVal"></span></div>
-								<input class="bidding-slider" name="SlideVal" type="text" value="" data-slider-handle="custom" data-slider-currency="TL" data-slider-min={{ task.budget_min }} data-slider-max={{ task.budget_max }} data-slider-value="auto" data-slider-step="25" data-slider-tooltip="hide" />
+								<input class="bidding-slider" name="SlideVal" type="text" value="" data-slider-handle="custom" data-slider-currency="TL" data-slider-min="{{ task.budget_min }}" data-slider-max="{{ task.budget_max }}" data-slider-value="auto" data-slider-step="10" data-slider-tooltip="hide" />
 								<!-- Headline -->
 								<span class="bidding-detail margin-top-30"><strong>Tamamlama sureni belirle</strong></span>
 
@@ -213,6 +216,12 @@
 						<input type='hidden' name="csrf_token" value="{{ csrf_token() }}"/>
 					<div class="sidebar-widget">
 						<div class="bidding-widget">
+							{% for message in get_flashed_messages() %}
+							<div class="notification error closeable">
+								<p>{{ message }}</p>
+								<a class="close" href="#"></a>
+							</div>
+							{% endfor %}
 							<div class="bidding-headline"><h3>Bu işe teklif ver!</h3></div>
 							<div class="bidding-inner">
 
@@ -221,7 +230,7 @@
 
 								<!-- Price Slider -->
 								<div class="bidding-value">TL<span id="biddingVal"></span></div>
-								<input class="bidding-slider" name="SlideVal" type="text" value="" data-slider-handle="custom" data-slider-currency="TL" data-slider-min={{ task.budget_min }} data-slider-max={{ task.budget_max }} data-slider-value="auto" data-slider-step="25" data-slider-tooltip="hide" />
+								<input class="bidding-slider" name="SlideVal" type="text" value="" data-slider-handle="custom" data-slider-currency="TL" data-slider-min="{{ task.budget_min }}" data-slider-max="{{ task.budget_max }}" data-slider-value="auto" data-slider-step="10" data-slider-tooltip="hide" />
 								<!-- Headline -->
 								<span class="bidding-detail margin-top-30"><strong>Tamamlama sureni belirle</strong></span>
 
@@ -334,7 +343,7 @@
 <script src="{{ url_for('static', filename='js/counterup.min.js')}}"></script>
 <script src="{{ url_for('static', filename='js/magnific-popup.min.js')}}"></script>
 <script src="{{ url_for('static', filename='js/slick.min.js')}}"></script>
-<script src="{{ url_for('static', filename='js/custom.js')}}"></script>
+<script type="text/javascript" src="/static/js/custom.js?u={{ last_updated }}"></script>
 <script type="text/javascript" src="/static/js/validateBid.js?u={{ last_updated }}"></script>
 
 <!-- Snackbar // documentation: https://www.polonel.com/snackbar/ -->

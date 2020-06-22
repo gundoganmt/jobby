@@ -7,8 +7,11 @@ manage = Blueprint('manage',__name__)
 @manage.route('/dashboard')
 @login_required
 def dashboard():
+    tasks = Tasks.query.filter_by(poster=current_user).all()
+    if len(tasks) == 0:
+        flash("Proje ilanlarınızın göruntuleme sayıları burada görunur.")
     views = Views.query.filter_by(viewed=current_user).first()
-    return render_template('dashboard.html', views=views)
+    return render_template('dashboard.html', views=views, tasks=tasks)
 
 @csrf.exempt
 @manage.route('/reviews', methods=['GET', 'POST'])

@@ -261,7 +261,7 @@
 											<li><i class="icon-material-outline-business"></i> {{ f.poster}} <div class="verified-badge" title="Doğrulanmış işveren" data-tippy-placement="top"></div></li>
 											<li><i class="icon-material-outline-location-on"></i> {{ f.location }}</li>
 											<li><i class="icon-material-outline-business-center"></i> Proje</li>
-											<li><i class="icon-material-outline-access-time"></i> {{ f.time_posted }}</li>
+											<li><i class="icon-material-outline-access-time"></i> {{ f.time_posted.strftime('%d:%m:%Y') }}</li>
 										</ul>
 									</div>
 								</div>
@@ -288,7 +288,7 @@
 			<div class="col-xl-12">
 				<!-- Section Headline -->
 				<div class="section-headline margin-top-0 margin-bottom-25">
-					<h3>En yuksek puanlı freelancerlar</h3>
+					<h3>En yuksek puanlı Profesyoneller</h3>
 					<a href="{{ url_for('public.browseFreelancers') }}" class="headline-link">Hepsini gör</a>
 				</div>
 			</div>

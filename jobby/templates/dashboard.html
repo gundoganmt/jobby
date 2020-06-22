@@ -91,7 +91,38 @@
 
 			<!-- Row -->
 			<div class="row">
+				<div class="col-xl-12">
+					<div class="dashboard-box">
+						<div class="headline">
+							<h3><i class="icon-material-outline-assignment"></i> Projeler</h3>
+						</div>
+						<div class="content">
+							<ul class="dashboard-box-list">
+								{% for message in get_flashed_messages() %}
+								<div class="notification notice closeable">
+									<p>{{ message }}</p>
+									<a class="close" href="#"></a>
+								</div>
+								{% endfor %}
+								{% for task in tasks %}
+									<li>
+										<span class="notification-icon"><i class=" icon-material-outline-gavel"></i></span>
+										<span class="notification-text">
+											<strong>{{ task }} </strong>
+										</span>
+										<!-- Buttons -->
+										<div class="buttons-to-right">
+											<button class="button gray" data-tippy-placement="top" data-tippy-theme="light">Göruntulenmeler</button>
+										</div>
+									</li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
 
+			<div class="row">
 				<div class="col-xl-12">
 					<!-- Dashboard Box -->
 					<div class="dashboard-box main-box-in-row">
@@ -121,13 +152,13 @@
 					<div class="dashboard-box">
 						<div class="headline">
 							<h3><i class="icon-material-baseline-notifications-none"></i> Bildirimler</h3>
-							<button class="mark-as-read ripple-effect-dark" data-tippy-placement="left" title="Hepsini okundu işaretle">
-									<i class="icon-feather-check-square"></i>
+							<button class="mark-as-read ripple-effect-red" data-tippy-placement="left" title="Hepsini sil">
+									<i class="icon-material-outline-delete"></i>
 							</button>
 						</div>
 						<div class="content">
 							<ul class="dashboard-box-list">
-								{% for nt in notifications %}
+								{% for nt in current_user.all_notifications() %}
 									{% if nt.not_type == 1 %}
 									<li>
 										<span class="notification-icon"><i class=" icon-material-outline-gavel"></i></span>
@@ -136,7 +167,7 @@
 										</span>
 										<!-- Buttons -->
 										<div class="buttons-to-right">
-											<button class="button gray" data-tippy-placement="top" data-tippy-theme="light">Okundu</button>
+											<button class="button red" data-tippy-placement="top" data-tippy-theme="light">Sil</button>
 										</div>
 									</li>
 									{% endif %}
@@ -148,6 +179,9 @@
 													<strong>Email adresinizi doğrulayın!</strong>
 												</span>
 											</a>
+											<div class="buttons-to-right">
+												<button class="button red" data-tippy-placement="top" data-tippy-theme="light">Sil</button>
+											</div>
 										</li>
 									{% endif %}
 									{% if nt.not_type == 3 %}
@@ -157,7 +191,7 @@
 												<strong>Tebrikler </strong><a href="#">{{ nt.notedTask }}</a> işini kazandınız!
 											</span>
 											<div class="buttons-to-right">
-												<button class="button gray" data-tippy-placement="top" data-tippy-theme="light">Okundu</button>
+												<button class="button red" data-tippy-placement="top" data-tippy-theme="light">Sil</button>
 											</div>
 										</li>
 									{% endif %}

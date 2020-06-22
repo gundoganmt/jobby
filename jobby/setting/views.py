@@ -39,6 +39,7 @@ def setting_profile():
     current_user.tagline = data['tagline']
     current_user.province = data['province']
     current_user.introduction = data['introduction']
+    current_user.check_status()
     db.session.commit()
     return jsonify({"success": True, "settingType": "p", "msg": "Profil ayarlarınız değişti."})
 
@@ -49,6 +50,7 @@ def setting_skill():
     skill = Skills.query.filter_by(skill=data['skill']).first()
     skill.level = data['level']
     current_user.UserSkills.append(skill)
+    current_user.check_status()
     db.session.commit()
     return jsonify({"success": True, "settingType": 's', "skill_id": skill.id, "skill": skill.skill})
 
@@ -100,6 +102,7 @@ def deleteItem():
     elif itemType == 's':
         item = Skills.query.filter_by(id=itemId).first()
         current_user.UserSkills.remove(item)
+        current_user.check_status()
         db.session.commit()
         return jsonify({"success": True})
 

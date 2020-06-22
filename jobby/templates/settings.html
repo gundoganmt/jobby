@@ -55,7 +55,13 @@
 					</ul>
 				</nav>
 			</div>
-
+			{% if current_user.status == 'employer' %}
+				<div class="notification notice closeable">
+					<h3>Hoşgeldiniz!</h3>
+					<p>Statunuz <em>işveren</em> olarak görunuyor. Profesyonel olup ilanlara teklif verebilmek için doldurmanız gereken alanlar: Profil ayarları kısmının tamamı ve en az 1 yetenek seçmelisiniz. Profesyonel statusunde de iş ilanı verebilirsiniz. İş deneyimi ve Eğitim durumu kısmını doldurmanız kazanacağınız iş ilanı sayısını oldukça arttırır.</p>
+					<a class="close" href="#"></a>
+				</div>
+			{% endif %}
 			<!-- Row -->
 			<div class="row">
 
@@ -99,7 +105,7 @@
 											<div class="col-xl-6">
 												<div class="submit-field">
 													<h5>Cep Telefonu</h5>
-													<input type="text" name="phone_number" class="with-border" value="{{ current_user.phone_number }}">
+													<input type="tel" name="phone_number" class="with-border" value="{{ current_user.phone_number }}">
 												</div>
 											</div>
 
@@ -136,19 +142,25 @@
 												<div class="submit-field">
 													<h5>Alanınız</h5>
 													<select id="field_of_work" class="selectpicker with-border" data-size="7" title="Çalışma alanınız" data-live-search="true" value="">
-														<option value="1">Yazılım Muhendisliği</option>
-														<option value="2">Sosyal Medya Uzmanlığı</option>
-														<option value="3">Ev Temizliği</option>
-														<option value="4">Boyacılık</option>
-														<option value="5">Ev Nakliyat</option>
-														<option value="6">Vinç Operatorluğu</option>
+														<option value="1">Websiteleri, BT ve Yazılım</option>
+														<option value="2">Çeviri ve İçerik</option>
+														<option value="3">Temizlik İşleri</option>
+														<option value="4">Tasarım ve Mimari</option>
+														<option value="5">Veri Girişi ve Yönetimi</option>
+														<option value="6">Muhendislik ve Bilim</option>
+														<option value="7">Satış ve Dijital Pazarlama</option>
+														<option value="8">Yukleme ve Nakliye</option>
+														<option value="9">İşletme, Hukuk ve Muhasebe</option>
+														<option value="10">Eğitim ve Çalışma</option>
+														<option value="11">Yerel iş ve Hizmetler</option>
+														<option value="12">Diğer</option>
 													</select>
 												</div>
 											</div>
 											<div class="col-xl-4">
 												<div class="submit-field">
 													<h5>Kısaca Kendiniz</h5>
-													<input type="text" id="tagline" class="with-border" value="{{ current_user.tagline }}" placeholder="web tasarımcı + seo uzmanı">
+													<input type="text" id="tagline" class="with-border" value="{{ current_user.tagline }}" placeholder="ör. web tasarımcı + seo uzmanı">
 												</div>
 											</div>
 
@@ -250,7 +262,10 @@
 												<div class="submit-field">
 													<h5>Kendinizi Anlatın</h5>
 												</div>
-												<div class="submit-field" id="editor3"></div>
+												<div class="submit-field" id="editor3">
+													{{ current_user.introduction|safe }}
+												</div>
+												<input type='hidden' name="description" id="profileQuill" value=""/>
 												<a class="button saveSetting" data="profile"><i class="icon-feather-save"></i> Kaydet</a>
 											</div>
 
@@ -318,7 +333,7 @@
 						<div class="dashboard-box">
 
 							<div class="headline" name="collapse" style="cursor: pointer;">
-								<h3><i class="icon-material-outline-face"></i> İş Deneyimi</h3>
+								<h3><i class="icon-material-outline-business"></i> İş Deneyimi</h3>
 							</div>
 
 							<div class="content with-padding" style="display: none;">

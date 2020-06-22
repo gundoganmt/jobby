@@ -40,14 +40,14 @@
 
 			<!-- Dashboard Headline -->
 			<div class="dashboard-headline">
-				<h3>Görevleri Yönet</h3>
+				<h3>Projeleri Yönet</h3>
 
 				<!-- Breadcrumbs -->
 				<nav id="breadcrumbs" class="dark">
 					<ul>
 						<li><a href="{{ url_for('public.index') }}">Anasayfa</a></li>
 						<li><a href="#">Hesabım</a></li>
-						<li>Görevleri Yönet</li>
+						<li>Projeleri Yönet</li>
 					</ul>
 				</nav>
 			</div>
@@ -61,13 +61,13 @@
 
 						<!-- Headline -->
 						<div class="headline">
-							<h3><i class="icon-material-outline-assignment"></i> Görevlerim</h3>
+							<h3><i class="icon-material-outline-assignment"></i> Projelerim</h3>
 						</div>
 
 						<div class="content">
 							<ul class="dashboard-box-list">
 								{% for message in get_flashed_messages() %}
-								<div class="notification error closeable">
+								<div class="notification notice closeable">
 									<p>{{ message }}</p>
 									<a class="close" href="#"></a>
 								</div>
@@ -83,11 +83,6 @@
 											<div class="job-listing-description">
 												<h3 class="job-listing-title"><a href="{{ url_for('public.task_page', task_id=task.id) }}">{{ task.project_name }}</a></h3>
 												<!-- Job Listing Footer -->
-												<div class="job-listing-footer">
-													<ul>
-														<li><i class="icon-material-outline-access-time"></i> 23 saat kaldı</li>
-													</ul>
-												</div>
 											</div>
 										</div>
 									</div>
@@ -101,8 +96,6 @@
 									<!-- Buttons -->
 									<div class="buttons-to-right always-visible">
 										<a href="{{ url_for('manage.manageBidders', task_id=task.id) }}" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Teklif Verenler <span class="button-info">{{ task.num_bids }}</span></a>
-										<a href="#" class="button gray ripple-effect ico" title="Edit" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
-										<a href="#" class="button gray ripple-effect ico" title="Remove" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
 									</div>
 								</li>
 								{% endfor %}

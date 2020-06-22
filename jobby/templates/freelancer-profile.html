@@ -45,7 +45,11 @@
 						<div class="header-details">
 							<h3>{{ user }} <span>{{ user.tagline }}</span></h3>
 							<ul>
-								<li><div class="star-rating" data-rating="{{ user.rating }}"></div></li>
+								{% if user.rating == 0 %}
+									<span class="company-not-rated">Puanı yok</span>
+								{% else %}
+									<li><div class="star-rating" data-rating="{{ user.rating }}"></div></li>
+								{% endif %}
 								<li>{{ user.province }}</li>
 								<li><div class="verified-badge-with-title">Onaylandı</div></li>
 							</ul>
@@ -70,7 +74,7 @@
 			<!-- Page Content -->
 			<div class="single-page-section">
 				<h3 class="margin-bottom-25">Hakkımda</h3>
-				{{ user.introduction }}
+				{{ user.introduction|safe }}
 			</div>
 
 			<!-- Boxed List -->

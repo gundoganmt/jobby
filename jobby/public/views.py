@@ -35,20 +35,26 @@ def task_page(task_id):
         return render_template('single-task-page.html',task=task, sk=sk, taskbids=taskbids, last_updated=last_updated)
     else:
         if current_user.is_authenticated:
-            bid_amount = request.form['SlideVal']
-            num_delivery = request.form['qtyInput']
-            type_delivery = request.form['time']
-            msg = request.form['message']
-            bid = Bids(user_id=current_user.id, task_id=task_id, bid_amount=bid_amount,
-                       num_delivery=num_delivery, type_delivery=type_delivery, message=msg)
-            notification = Notification(task_id=task_id, not_from=current_user.id, not_to=task.poster.id, not_type=1)
-            task.num_bids += 1
-            current_user.num_bids += 1
-            db.session.add(bid)
-            db.session.add(notification)
-            db.session.commit()
-            return redirect(url_for('manage.activeBids'))
-        return redirect(url_for('account.login'))
+            if current_user.status == 'employer':
+                flash('Statunuz işveren olarak görunuyor, değiştirmek için ayarlara gidiniz!')
+                return redirect(request.url)
+            else:
+                bid_amount = request.form['SlideVal']
+                num_delivery = request.form['qtyInput']
+                type_delivery = request.form['time']
+                msg = request.form['message']
+                bid = Bids(user_id=current_user.id, task_id=task_id, bid_amount=bid_amount,
+                           num_delivery=num_delivery, type_delivery=type_delivery, message=msg)
+                notification = Notification(task_id=task_id, not_from=current_user.id, not_to=task.poster.id, not_type=1)
+                task.num_bids += 1
+                current_user.num_bids += 1
+                db.session.add(bid)
+                db.session.add(notification)
+                db.session.commit()
+                return redirect(url_for('manage.activeBids'))
+        else:
+            flash('Teklif verebilmek için giriş yapmalısınız!')
+            return redirect(url_for('account.login'))
 
 @public.route('/jobs/<int:job_id>', methods=['GET', 'POST'])
 def job_page(job_id):
@@ -73,7 +79,7 @@ def browseTasks():
 
 @public.route('/freelancer/<int:user_id>', methods=['GET', 'POST'])
 def freelancer(user_id):
-    user = Users.query.filter_by(id=user_id).first_or_404()
+    user = Users.query.filter_by(id=user_id, status='professional').first_or_404()
     if request.method == 'GET':
         reviews = Reviews.query.filter_by(reviewed_pro=user).all()
         user.add_view()

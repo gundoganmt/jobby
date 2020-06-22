@@ -1,6 +1,6 @@
 from flask import render_template, request, Blueprint, redirect, url_for, flash
 from werkzeug.security import generate_password_hash, check_password_hash
-from jobby.models import Users
+from jobby.models import Users, Notification
 from datetime import datetime
 from jobby import db, login_manager, mail
 from flask_login import login_user, logout_user, login_required, current_user
@@ -66,7 +66,9 @@ def signup():
         if existing_user is None:
             user = Users(name=name, surname=surname, email=email, password=hashed_password,
                 member_since=datetime.utcnow())
+            notif = Notification(notification_to=user, not_type=2)
             db.session.add(user)
+            db.session.add(notif)
             db.session.commit()
             login_user(user)
             #send_confirmation_email(user)

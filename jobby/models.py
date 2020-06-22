@@ -91,6 +91,9 @@ class Users(UserMixin, db.Model):
     def new_notifications(self):
         return Notification.query.filter_by(notification_to=self, seen=False).all()
 
+    def all_notifications(self):
+        return Notification.query.filter_by(notification_to=self).all()
+
     def get_confirmation_token(self, expires_sec=1800):
         s = Serializer("qazxswedcvfrtgb", expires_sec)
         return s.dumps({'user_id': self.id}).decode('utf-8')
@@ -115,18 +118,21 @@ class Users(UserMixin, db.Model):
             return False
         return self.bids.filter(Bids.task_id == task.id).count() > 0
 
-    def canPost(self):
-        if self.email_approved:
-            return True
-        return False
-
     def canBid(self):
         if self.setting_completed:
             return True
         return False
 
+    def check_status(self):
+        skill = self.UserSkills.all()
+        if self.field_of_work and self.tagline and self.introduction and len(skill)>0:
+            self.status = 'professional'
+        else:
+            self.status = 'employer'
+        db.session.commit()
+
     def num_not(self):
-        return Notification.query.filter_by(notification_to=self).count()
+        return Notification.query.filter_by(notification_to=self, seen=False).count()
 
     def add_view(self):
         weekday = datetime.today().weekday()
