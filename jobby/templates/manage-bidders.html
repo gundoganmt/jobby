@@ -97,7 +97,11 @@
 
 													<!-- Rating -->
 													<div class="freelancer-rating">
-														<div class="star-rating" data-rating="5.0"></div>
+														{% if winner_bid.bidder.rating == 0 %}
+															<span class="company-not-rated">Puanı yok</span>
+														{% else %}
+															<div class="star-rating" data-rating="{{ winner_bid.bidder.rating }}"></div>
+														{% endif %}
 													</div>
 
 													<!-- Bid Details -->
@@ -139,7 +143,11 @@
 
 														<!-- Rating -->
 														<div class="freelancer-rating">
-															<div class="star-rating" data-rating="5.0"></div>
+															{% if bid.bidder.rating == 0 %}
+																<span class="company-not-rated">Puanı yok</span>
+															{% else %}
+																<div class="star-rating" data-rating="{{ bid.bidder.rating }}"></div>
+															{% endif %}
 														</div>
 
 														<!-- Bid Details -->

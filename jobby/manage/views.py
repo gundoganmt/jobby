@@ -18,6 +18,10 @@ def dashboard():
 @login_required
 def reviews():
     if request.method == 'GET':
+        notifs = Notification.query.filter_by(notification_to=current_user, not_type=5).all()
+        for notif in notifs:
+            notif.seen = True
+        db.session.commit()
         if current_user.status == 'professional':
             my_reviews = Reviews.query.filter_by(reviewed_pro=current_user).all()
         else:
@@ -38,6 +42,8 @@ def reviews():
         review.rating = int(rating)
         review.body = comment
         review.reviewed_pro.addRating(int(rating))
+        notif = Notification(notification_to=review.reviewed_pro, notification_from=reviewed_emp, notedTask=review.reviewed, not_type=5)
+        db.session.add(notif)
         db.session.commit()
 
         return redirect(request.url)
@@ -62,6 +68,10 @@ def getReview(review_id):
 @manage.route('/active-bids')
 @login_required
 def activeBids():
+    notifs = Notification.query.filter_by(notification_to=current_user, not_type=3).all()
+    for notif in notifs:
+        notif.seen = True
+    db.session.commit()
     bids = Bids.query.filter_by(bidder=current_user).all()
     if len(bids) == 0:
         flash('Henuz bir işe teklifiniz bulunmuyor')
@@ -112,12 +122,20 @@ def manageTasks():
 @manage.route('/manage-offers')
 @login_required
 def manageOffers():
+    notifs = Notification.query.filter_by(notification_to=current_user, not_type=4).all()
+    for notif in notifs:
+        notif.seen = True
+    db.session.commit()
     offers = Offers.query.filter_by(offered=current_user).all()
     return render_template('manage-offers.html', offers=offers, last_updated=last_updated)
 
 @manage.route('/manage-bidders/<int:task_id>')
 @login_required
 def manageBidders(task_id):
+    notifs = Notification.query.filter_by(notification_to=current_user, not_type=1).all()
+    for notif in notifs:
+        notif.seen = True
+    db.session.commit()
     bids = Bids.query.filter_by(task_id=task_id).all()
     task = Tasks.query.filter_by(id=task_id).first_or_404()
     winner_bid = Bids.query.filter_by(bidder=task.winner, bidded=task).first()

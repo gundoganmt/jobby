@@ -54,17 +54,19 @@
 				<!-- Category -->
 				<div class="sidebar-widget">
 					<h3>Kategori</h3>
-					<select class="selectpicker default" multiple data-selected-text-format="count" data-size="7" title="Butun Kategoriler" >
-						<option>Admin Support</option>
-						<option>Customer Service</option>
-						<option>Data Analytics</option>
-						<option>Design & Creative</option>
-						<option>Legal</option>
-						<option>Software Developing</option>
-						<option>IT & Networking</option>
-						<option>Writing</option>
-						<option>Translation</option>
-						<option>Sales & Marketing</option>
+					<select class="selectpicker with-border" data-size="7" title="Kategori" data-live-search="true" value="">
+						<option value="1">Websiteleri, BT ve Yazılım</option>
+						<option value="2">Çeviri ve İçerik</option>
+						<option value="3">Temizlik İşleri</option>
+						<option value="4">Tasarım ve Mimari</option>
+						<option value="5">Veri Girişi ve Yönetimi</option>
+						<option value="6">Muhendislik ve Bilim</option>
+						<option value="7">Satış ve Dijital Pazarlama</option>
+						<option value="8">Yukleme ve Nakliye</option>
+						<option value="9">İşletme, Hukuk ve Muhasebe</option>
+						<option value="10">Eğitim ve Çalışma</option>
+						<option value="11">Yerel iş ve Hizmetler</option>
+						<option value="12">Diğer</option>
 					</select>
 				</div>
 
@@ -127,7 +129,11 @@
 								<span>{{ user.tagline }}</span>
 								<!-- Rating -->
 								<div class="freelancer-rating">
-									<div class="star-rating" data-rating="4.9"></div>
+									{% if user.rating == 0 %}
+										<span class="company-not-rated">Puanı yok</span>
+									{% else %}
+										<div class="star-rating" data-rating="{{ user.rating }}"></div>
+									{% endif %}
 								</div>
 							</div>
 						</div>
@@ -138,8 +144,8 @@
 						<div class="freelancer-details-list">
 							<ul>
 								<li>Şehir <strong><i class="icon-material-outline-location-on"></i> {{ user.province }}</strong></li>
-								<li>Başarı<strong>95%</strong></li>
-								<li>Tavsiye<strong>90%</strong></li>
+								<li>Başarı<strong>{{ user.recom() }}</strong></li>
+								<li>Tavsiye<strong>{{ user.intime() }}</strong></li>
 							</ul>
 						</div>
 						<a href="{{ url_for('public.freelancer', user_id=user.id) }}" class="button button-sliding-icon ripple-effect">Profili Gör <i class="icon-material-outline-arrow-right-alt"></i></a>

@@ -104,6 +104,16 @@
 												</a>
 											</li>
 											{% endif %}
+											{% if nt.not_type == 5 %}
+											<li>
+												<a href="{{ url_for('manage.reviews') }}">
+													<span class="notification-icon"><i class="icon-material-outline-rate-review"></i></span>
+													<span class="notification-text">
+														<strong>{{ nt.notification_from }} </strong> size <span class="color">{{ nt.notedTask }}</span> işi için puan verdi.
+													</span>
+												</a>
+											</li>
+											{% endif %}
 										{% endfor %}
 										{% if current_user.num_not() == 0 %}
 											<li>
@@ -203,7 +213,11 @@
 						</div>
 
 						<ul class="user-menu-small-nav">
-							<li><a href="{{ url_for('manage.dashboard') }}"><i class="icon-material-outline-dashboard"></i> Hesabım</a></li>
+							{% if current_user.status == 'professional' %}
+								<li><a href="{{ url_for('public.freelancer', user_id=current_user.id) }}"><i class="icon-material-outline-account-circle"></i> Profilim</a></li>
+							{% else %}
+								<li><a href="{{ url_for('manage.dashboard') }}"><i class="icon-material-outline-dashboard"></i> Hesabım</a></li>
+							{% endif %}
 							<li><a href="{{ url_for('setting.setting_page') }}"><i class="icon-material-outline-settings"></i> Ayarlar</a></li>
 							<li><a href="{{ url_for('account.logout') }}"><i class="icon-material-outline-power-settings-new"></i> Çıkış </a></li>
 						</ul>
