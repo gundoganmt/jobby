@@ -58,10 +58,17 @@
 			{% if current_user.status == 'employer' %}
 				<div class="notification notice closeable">
 					<h3>Hoşgeldiniz!</h3>
-					<p>Statunuz <em>işveren</em> olarak görunuyor. Profesyonel olup ilanlara teklif verebilmek için doldurmanız gereken alanlar: Profil ayarları kısmının tamamı ve en az 1 yetenek seçmelisiniz. Profesyonel statusunde de iş ilanı verebilirsiniz. İş deneyimi ve Eğitim durumu kısmını doldurmanız kazanacağınız iş ilanı sayısını oldukça arttırır.</p>
+					<p>Statunuz <strong>işveren</strong> olarak görunuyor. <strong>Profesyonel</strong> olup ilanlara teklif verebilmek için doldurmanız gereken alanlar: Profil ayarları kısmının tamamı ve en az 1 yetenek seçmelisiniz. Profesyonel statusunde de iş ilanı verebilirsiniz. İş deneyimi ve Eğitim durumu kısmını doldurmanız kazanacağınız iş ilanı sayısını oldukça arttırır.</p>
 					<a class="close" href="#"></a>
 				</div>
 			{% endif %}
+
+			{% for message in get_flashed_messages() %}
+				<div class="notification error closeable">
+					<p>{{ message }}</p>
+					<a class="close" href="#"></a>
+				</div>
+			{% endfor %}
 			<!-- Row -->
 			<div class="row">
 

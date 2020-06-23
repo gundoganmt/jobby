@@ -13,8 +13,13 @@ setting = Blueprint('setting',__name__)
 @setting.route('/setting', methods=['POST'])
 @login_required
 def setting_personel():
-    current_user.name = request.form['name']
-    current_user.surname = request.form['surname']
+    if not request.form['name'] or not request.form['surname']:
+        flash('İsim veya soyisim boş olamaz')
+        return redirect(request.url)
+    else:
+        current_user.name = request.form['name']
+        current_user.surname = request.form['surname']
+
     current_user.email = request.form['email']
     current_user.phone_number = request.form['phone_number']
 
