@@ -2983,7 +2983,6 @@ body #backtotop a {
     border-radius: 4px;
     box-shadow: 0 3px 12px rgba(0,0,0,0.1);
     display: flex;
-    padding: 0 20px;
 }
 
 /* IE 11 Fixes */
@@ -3198,7 +3197,7 @@ body #backtotop a {
     .single-page-header .header-image {
         height: 70px;
         width: 70px;
-        padding: 15px 20px;
+        padding: 0 0;
         margin: 15px 0;
         display: inline-block;
     }

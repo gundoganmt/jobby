@@ -46,30 +46,34 @@
 
    	else if(settingType == "workExp"){
       var url = '/setting/workExp';
+      var editor = document.querySelector('#editor2');
       var position = document.getElementById('position').value;
       var company = document.getElementById('company').value;
       var start_month_job = document.getElementById('start_month_job').value;
       var start_year_job = document.getElementById('start_year_job').value;
       var end_month_job = document.getElementById('end_month_job').value;
       var end_year_job = document.getElementById('end_year_job').value;
-      var desc_work = document.getElementById('desc_work').value;
+      var desc_work = document.querySelector('#desc_work');
+      desc_work.value = editor.children[0].innerHTML;
       var data = {'position': position, "company": company, "start_month_job": start_month_job,
       "start_year_job": start_year_job, "end_month_job": end_month_job, "end_year_job": end_year_job,
-      "desc_work": desc_work};
+      "desc_work": desc_work.value};
    	}
 
    	else if(settingType == "education"){
       var url = '/setting/education';
+      var editor = document.querySelector('#editor');
       var field = document.getElementById('field').value;
       var school = document.getElementById('school').value;
       var start_month_edu = document.getElementById('start_month_edu').value;
       var start_year_edu = document.getElementById('start_year_edu').value;
       var end_month_edu = document.getElementById('end_month_edu').value;
       var end_year_edu = document.getElementById('end_year_edu').value;
-      var desc_edu = document.getElementById('desc_edu').value;
+      var desc_edu = document.querySelector('#desc_edu');
+      desc_edu.value = editor.children[0].innerHTML;
       var data = {'field': field, "school": school, "start_month_edu": start_month_edu,
       "start_year_edu": start_year_edu, "end_month_edu": end_month_edu, "end_year_edu": end_year_edu,
-      "desc_edu": desc_edu};
+      "desc_edu": desc_edu.value};
    	}
 
    	else if (settingType == "security"){

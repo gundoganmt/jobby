@@ -2,7 +2,7 @@ from flask import render_template, Blueprint, request, flash, redirect, url_for,
 from flask_login import current_user, login_required
 from jobby.models import Users, Skills, WorkExperiences, Educations
 from jobby import db, last_updated, csrf
-import os, uuid, re
+import os, uuid, re, json
 from PIL import Image
 from utils import crop_max_square, allowed_img_file, get_extension, UPLOAD_IMG_FOLDER
 from werkzeug.utils import secure_filename
@@ -114,7 +114,12 @@ def deleteItem():
 @setting.route('/setting')
 @login_required
 def setting_page():
+    with open("category.json") as category:
+        categories = json.load(category)
+    with open("cities.json") as city:
+        cities = json.load(city)
     skills = current_user.UserSkills.all()
     workExps = WorkExperiences.query.filter_by(Worker=current_user).all()
     edus = Educations.query.filter_by(student=current_user).all()
-    return render_template('settings.html', last_updated=last_updated, skills=skills, workExps=workExps, edus=edus)
+    return render_template('settings.html', last_updated=last_updated, skills=skills,
+        workExps=workExps, edus=edus, categories=categories, cities=cities)

@@ -117,11 +117,11 @@
 								<div class="item-content">
 									<h4>{{ workExp }}</h4>
 									<div class="item-details margin-top-7">
-										<div class="detail-item"><a href="#"><i class="icon-material-outline-business"></i> {{ workExp.company }}</a></div>
+										<div class="detail-item"><i class="icon-material-outline-business"></i> {{ workExp.company }}</a></div>
 										<div class="detail-item"><i class="icon-material-outline-date-range"></i> {{ workExp.start_month }} {{ workExp.start_year }} - {{ workExp.end_month }} {{ workExp.end_year }}</div>
 									</div>
 									<div class="item-description">
-										<p>{{ workExp.description }}</p>
+										<p>{{ workExp.description|safe }}</p>
 									</div>
 								</div>
 							</div>
@@ -288,6 +288,7 @@
 			<li><a href="#tab">Teklif Sun</a></li>
 		</ul>
 
+		{% if current_user == user %}
 		<div class="popup-tabs-container">
 
 			<!-- Tab -->
@@ -295,69 +296,45 @@
 
 				<!-- Welcome Text -->
 				<div class="welcome-text">
-					<h3>Projeni {{ user }} ile konuş</h3>
+					<h3>Bu sizin sayfanız</h3>
+					<p>İşverenler buradan sizinle direkt olarak temas kurup proje teklif edebilirler. Projelerin daha yayınlanmadan, sadece size özel olarak sunulması profilinizdeki bilgilerin çokluğuyla orantılıdır. <strong>İş deneyimi</strong> ve/veya <strong>Eğitim durumu</strong> kısmını doldurmayı unutmayın.</p>
 				</div>
 
-				<!-- Form -->
-				<form method="post" action="{{ url_for('public.freelancer', user_id= user.id) }}" enctype="multipart/form-data">
-					<input type='hidden' name="csrf_token" value="{{ csrf_token() }}"/>
-
-					<div class="input-with-icon-left">
-						<i class="icon-material-outline-account-circle"></i>
-						<input type="text" class="input-text with-border" name="subject" id="subject" placeholder="Konu" required/>
-					</div>
-
-					<textarea name="message" cols="10" placeholder="Mesajınız" class="with-border" required></textarea>
-
-					<div class="uploadButton margin-top-25">
-						<input class="uploadButton-input" type="file" name="file" accept="image/*, application/pdf" id="upload" multiple/>
-						<label class="uploadButton-button ripple-effect" for="upload">Eklentiler</label>
-						<span class="uploadButton-file-name">İzin verilen dosya uzantıları: zip, pdf, png, jpg, jpeg <br> En fazla: 50 MB.</span>
-					</div>
-
-					<button class="button margin-top-35 full-width button-sliding-icon ripple-effect" type="submit">Teklif Sun <i class="icon-material-outline-arrow-right-alt"></i></button>
-				</form>
-
-				<!-- Button -->
-
 			</div>
-			<!-- Login -->
-			<div class="popup-tab-content" id="loginn">
-
-				<!-- Welcome Text -->
-				<div class="welcome-text">
-					<h3>Discuss Your Project With Tom</h3>
-				</div>
-
-				<!-- Form -->
-				<form method="post" id="make-an-offer-form">
-
-					<div class="input-with-icon-left">
-						<i class="icon-material-outline-account-circle"></i>
-						<input type="text" class="input-text with-border" name="name2" id="name2" placeholder="First and Last Name" required/>
-					</div>
-
-					<div class="input-with-icon-left">
-						<i class="icon-material-baseline-mail-outline"></i>
-						<input type="text" class="input-text with-border" name="emailaddress2" id="emailaddress2" placeholder="Email Address" required/>
-					</div>
-
-					<textarea name="textarea" cols="10" placeholder="Message" class="with-border"></textarea>
-
-					<div class="uploadButton margin-top-25">
-						<input class="uploadButton-input" type="file" accept="image/*, application/pdf" id="upload-cv" multiple/>
-						<label class="uploadButton-button" for="upload-cv">Add Attachments</label>
-						<span class="uploadButton-file-name">Allowed file types: zip, pdf, png, jpg <br> Max. files size: 50 MB.</span>
-					</div>
-
-				</form>
-
-				<!-- Button -->
-				<button class="button full-width button-sliding-icon ripple-effect" type="submit" form="make-an-offer-form">Make an Offer <i class="icon-material-outline-arrow-right-alt"></i></button>
-
-			</div>
-
 		</div>
+		{% else %}
+			<div class="popup-tabs-container">
+
+				<!-- Tab -->
+				<div class="popup-tab-content" id="tab">
+
+					<!-- Welcome Text -->
+					<div class="welcome-text">
+						<h3>Projeni {{ user }} ile konuş</h3>
+					</div>
+
+					<!-- Form -->
+					<form method="post" action="{{ url_for('public.freelancer', user_id= user.id) }}" enctype="multipart/form-data">
+						<input type='hidden' name="csrf_token" value="{{ csrf_token() }}"/>
+
+						<div class="input-with-icon-left">
+							<i class="icon-material-outline-account-circle"></i>
+							<input type="text" class="input-text with-border" name="subject" id="subject" placeholder="Konu" required/>
+						</div>
+
+						<textarea name="message" cols="10" placeholder="Mesajınız" class="with-border" required></textarea>
+
+						<div class="uploadButton margin-top-25">
+							<input class="uploadButton-input" type="file" name="file" accept="image/*, application/pdf" id="upload" multiple/>
+							<label class="uploadButton-button ripple-effect" for="upload">Eklentiler</label>
+							<span class="uploadButton-file-name">İzin verilen dosya uzantıları: zip, pdf, png, jpg, jpeg <br> En fazla: 50 MB.</span>
+						</div>
+
+						<button class="button margin-top-35 full-width button-sliding-icon ripple-effect" type="submit">Teklif Sun <i class="icon-material-outline-arrow-right-alt"></i></button>
+					</form>
+				</div>
+			</div>
+		{% endif %}
 	</div>
 </div>
 <!-- Make an Offer Popup / End -->

@@ -90,7 +90,7 @@
 
 				<!-- Budget -->
 				<div class="sidebar-widget">
-					<h3>Fiyat Aralığı</h3>
+					<h3>Proje Butçesi</h3>
 					<div class="margin-top-55"></div>
 
 					<!-- Range Slider -->
@@ -146,8 +146,12 @@
 						<div class="task-listing-bid">
 							<div class="task-listing-bid-inner">
 								<div class="task-offers">
-									<strong>{{ task.budget_min }} - {{ task.budget_max }}</strong>
-									<span>Fiyat Aralığı</span>
+									{% if not task.budget_max %}
+										<strong>Belirtilmemiş</strong>
+									{% else %}
+										<strong>{{ task.budget_min }} - {{ task.budget_max }}</strong>
+									{% endif %}
+									<span>Proje Butçesi</span>
 								</div>
 								<span class="button button-sliding-icon ripple-effect">Teklif Ver <i class="icon-material-outline-arrow-right-alt"></i></span>
 							</div>

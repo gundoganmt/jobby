@@ -149,18 +149,13 @@
 												<div class="submit-field">
 													<h5>Alanınız</h5>
 													<select id="field_of_work" class="selectpicker with-border" data-size="7" title="Çalışma alanınız" data-live-search="true" value="">
-														<option value="1">Websiteleri, BT ve Yazılım</option>
-														<option value="2">Çeviri ve İçerik</option>
-														<option value="3">Temizlik İşleri</option>
-														<option value="4">Tasarım ve Mimari</option>
-														<option value="5">Veri Girişi ve Yönetimi</option>
-														<option value="6">Muhendislik ve Bilim</option>
-														<option value="7">Satış ve Dijital Pazarlama</option>
-														<option value="8">Yukleme ve Nakliye</option>
-														<option value="9">İşletme, Hukuk ve Muhasebe</option>
-														<option value="10">Eğitim ve Çalışma</option>
-														<option value="11">Yerel iş ve Hizmetler</option>
-														<option value="12">Diğer</option>
+														{% for key, value in categories.items() %}
+															{% if current_user.field_of_work == key %}
+																<option value="{{ key }}" selected>{{ value }}</option>
+															{% else %}
+																<option value="{{ key }}">{{ value }}</option>
+															{% endif %}
+														{% endfor %}
 													</select>
 												</div>
 											</div>
@@ -175,92 +170,13 @@
 												<div class="submit-field">
 													<h5>Şehir</h5>
 													<select id="province" class="selectpicker with-border" data-size="7" title="Şehir seçiniz" data-live-search="true" value="{{ current_user.province }}">
-														{% if current_user.province %}
-															<option selected>{{ current_user.province }}</option>
-														{% else %}
-															<option selected>Online</option>
-														{% endif %}
-														<option>Adana</option>
-														<option>Adıyaman</option>
-														<option>Afyonkarahisar</option>
-														<option>Ağrı</option>
-														<option>Aksaray</option>
-														<option>Amasya</option>
-														<option>Ankara</option>
-														<option>Antalya</option>
-														<option>Ardahan</option>
-														<option>Artvin</option>
-														<option>Aydın</option>
-														<option>Balıkesir</option>
-														<option>Bartın</option>
-														<option>Batman</option>
-														<option>Bayburt</option>
-														<option>Bilecik</option>
-														<option>Bingöl</option>
-														<option>Bitlis</option>
-														<option>Bolu</option>
-														<option>Burdur</option>
-														<option>Bursa</option>
-														<option>Çanakkale</option>
-														<option>Çankırı</option>
-														<option>Çorum</option>
-														<option>Denizli</option>
-														<option>Diyarbakır</option>
-														<option>Duzce</option>
-														<option>Edirne</option>
-														<option>Elazığ</option>
-														<option>Erzincan</option>
-														<option>Erzurum</option>
-														<option>Eskişehir</option>
-														<option>Gaziantep</option>
-														<option>Giresun</option>
-														<option>Gumushane</option>
-														<option>Hakkari</option>
-														<option>Hatay</option>
-														<option>Iğdır</option>
-														<option>Isparta</option>
-														<option>İstanbul</option>
-														<option>İzmir</option>
-														<option>Kahramanmaraş</option>
-														<option>Karabuk</option>
-														<option>Karaman</option>
-														<option>Kars</option>
-														<option>Kastamonu</option>
-														<option>Kayseri</option>
-														<option>Kırıkkale</option>
-														<option>Kırklareli</option>
-														<option>Kırşehir</option>
-														<option>Kilis</option>
-														<option>Kocaeli</option>
-														<option>Konya</option>
-														<option>Kutahya</option>
-														<option>Malatya</option>
-														<option>Manisa</option>
-														<option>Mardin</option>
-														<option>Mersin</option>
-														<option>Muğla</option>
-														<option>Muş</option>
-														<option>Nevşehir</option>
-														<option>Niğde</option>
-														<option>Ordu</option>
-														<option>Osmaniye</option>
-														<option>Rize</option>
-														<option>Sakarya</option>
-														<option>Samsun</option>
-														<option>Siirt</option>
-														<option>Sinop</option>
-														<option>Sivas</option>
-														<option>Şanlıurfa</option>
-														<option>Şırnak</option>
-														<option>Tekirdağ</option>
-														<option>Tokat</option>
-														<option>Trabzon</option>
-														<option>Tunceli</option>
-														<option>Uşak</option>
-														<option>Van</option>
-														<option>Yalova</option>
-														<option>Yozgat</option>
-														<option>Zonguldak</option>
+														{% for key, value in cities.items() %}
+															{% if current_user.province == key %}
+																<option value="{{ key }}" selected>{{ value }}</option>
+															{% else %}
+																<option value="{{ key }}">{{ value }}</option>
+															{% endif %}
+														{% endfor %}
 													</select>
 												</div>
 											</div>
@@ -535,6 +451,7 @@
 											<h5>Açıklama</h5>
 										</div>
 										<div class="submit-field" id="editor2"></div>
+										<input type='hidden' name="description" id="desc_work" value=""/>
 										<a class="button saveSetting" data="workExp"><i class="icon-feather-save"></i> Kaydet</a>
 									</div>
 								</div>
@@ -736,6 +653,7 @@
 											<h5>Açıklama</h5>
 										</div>
 										<div class="submit-field" id="editor"></div>
+										<input type='hidden' name="description" id="desc_edu" value=""/>
 										<a class="button saveSetting" data="education"><i class="icon-feather-save"></i> Kaydet</a>
 									</div>
 								</div>

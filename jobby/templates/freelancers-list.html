@@ -55,18 +55,9 @@
 				<div class="sidebar-widget">
 					<h3>Kategori</h3>
 					<select class="selectpicker with-border" data-size="7" title="Kategori" data-live-search="true" value="">
-						<option value="1">Websiteleri, BT ve Yazılım</option>
-						<option value="2">Çeviri ve İçerik</option>
-						<option value="3">Temizlik İşleri</option>
-						<option value="4">Tasarım ve Mimari</option>
-						<option value="5">Veri Girişi ve Yönetimi</option>
-						<option value="6">Muhendislik ve Bilim</option>
-						<option value="7">Satış ve Dijital Pazarlama</option>
-						<option value="8">Yukleme ve Nakliye</option>
-						<option value="9">İşletme, Hukuk ve Muhasebe</option>
-						<option value="10">Eğitim ve Çalışma</option>
-						<option value="11">Yerel iş ve Hizmetler</option>
-						<option value="12">Diğer</option>
+						{% for key, value in categories.items() %}
+							<option value="{{ key }}">{{ value }}</option>
+						{% endfor %}
 					</select>
 				</div>
 

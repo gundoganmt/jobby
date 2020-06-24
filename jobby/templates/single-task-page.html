@@ -55,7 +55,11 @@
 					<div class="right-side">
 						<div class="salary-box">
 							<div class="salary-type">Proje Butçesi</div>
-							<div class="salary-amount">{{ task.budget_min }} TL - {{task.budget_max }} TL</div>
+							{% if not task.budget_max %}
+								<div class="salary-amount">Belirtilmemiş</div>
+							{% else %}
+								<div class="salary-amount">{{ task.budget_min }} TL - {{task.budget_max }} TL</div>
+							{% endif %}
 						</div>
 					</div>
 				</div>
@@ -157,7 +161,11 @@
 								<li>
 									<i class="icon-material-outline-local-atm"></i>
 									<span>Proje Butçesi</span>
-									<h5>{{ task.budget_min }} TL - {{ task.budget_max }} TL</h5>
+									{% if not task.budget_max %}
+										<h5>Belirtilmemiş</h5>
+									{% else %}
+										<h5>{{ task.budget_min }} TL - {{ task.budget_max }} TL</h5>
+									{% endif %}
 								</li>
 								<li>
 									<i class="icon-material-outline-access-time"></i>
@@ -181,8 +189,12 @@
 								<span class="bidding-detail"><strong>En duşuk ucretini belirle</strong></span>
 
 								<!-- Price Slider -->
-								<div class="bidding-value">TL<span id="biddingVal"></span></div>
-								<input class="bidding-slider" name="SlideVal" type="text" value="" data-slider-handle="custom" data-slider-currency="TL" data-slider-min="{{ task.budget_min }}" data-slider-max="{{ task.budget_max }}" data-slider-value="auto" data-slider-step="10" data-slider-tooltip="hide" />
+								<div class="bidding-value"><span></span></div>
+								{% if not task.budget_max %}
+									<input class="with-border" type="number" name="bid_amount" min="10" max="1000000" step="10" placeholder="En az" value="">
+								{% else %}
+									<input class="bidding-slider" name="bid_amount" type="text" value="" data-slider-handle="custom" data-slider-currency="TL" data-slider-min="{{ task.budget_min }}" data-slider-max="{{ task.budget_max }}" data-slider-value="auto" data-slider-step="10" data-slider-tooltip="hide" />
+								{% endif %}
 								<!-- Headline -->
 								<span class="bidding-detail margin-top-30"><strong>Tamamlama sureni belirle</strong></span>
 
@@ -229,8 +241,12 @@
 								<span class="bidding-detail"><strong>En duşuk ucretini belirle</strong></span>
 
 								<!-- Price Slider -->
-								<div class="bidding-value">TL<span id="biddingVal"></span></div>
-								<input class="bidding-slider" name="SlideVal" type="text" value="" data-slider-handle="custom" data-slider-currency="TL" data-slider-min="{{ task.budget_min }}" data-slider-max="{{ task.budget_max }}" data-slider-value="auto" data-slider-step="10" data-slider-tooltip="hide" />
+								<div class="bidding-value"><span></span></div>
+								{% if not task.budget_max %}
+									<input class="with-border" type="number" name="budget_min" min="10" step="10" placeholder="En az" value="">
+								{% else %}
+									<input class="bidding-slider" name="SlideVal" type="text" value="" data-slider-handle="custom" data-slider-currency="TL" data-slider-min="{{ task.budget_min }}" data-slider-max="{{ task.budget_max }}" data-slider-value="auto" data-slider-step="10" data-slider-tooltip="hide" />
+								{% endif %}
 								<!-- Headline -->
 								<span class="bidding-detail margin-top-30"><strong>Tamamlama sureni belirle</strong></span>
 

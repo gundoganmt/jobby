@@ -8,7 +8,7 @@ from jobby.models import (
     )
 from jobby import db, last_updated
 from werkzeug.utils import secure_filename
-import uuid, os
+import uuid, os, json
 from utils import allowed_offer_file, get_extension, UPLOAD_OFFER_FOLDER
 
 public = Blueprint('public',__name__)
@@ -39,7 +39,7 @@ def task_page(task_id):
                 flash('Statunuz işveren olarak görunuyor, değiştirmek için ayarlara gidiniz!')
                 return redirect(request.url)
             else:
-                bid_amount = request.form['SlideVal']
+                bid_amount = request.form['bid_amount']
                 num_delivery = request.form['qtyInput']
                 type_delivery = request.form['time']
                 msg = request.form['message']
@@ -88,30 +88,36 @@ def freelancer(user_id):
         sk = user.UserSkills.all()
         return render_template('freelancer-profile.html', user=user, sk=sk, reviews=reviews, workExps=workExps, edus=edus, last_updated=last_updated)
     else:
-        offer = Offers(offered=user, offers=current_user)
-        offer.subject = request.form['subject']
-        offer.message = request.form['message']
-        if 'file' in request.files:
-            file = request.files['file']
-            filename = file.filename
-        if file and allowed_offer_file(filename):
-            filename = secure_filename(filename)
-            unique_filename = str(uuid.uuid4())+get_extension(filename)
-            offer.filename = unique_filename
-            file.save(os.path.join(UPLOAD_OFFER_FOLDER, unique_filename))
+        if current_user.is_authenticated:
+            offer = Offers(offered=user, offers=current_user)
+            offer.subject = request.form['subject']
+            offer.message = request.form['message']
+            if 'file' in request.files:
+                file = request.files['file']
+                filename = file.filename
+            if file and allowed_offer_file(filename):
+                filename = secure_filename(filename)
+                unique_filename = str(uuid.uuid4())+get_extension(filename)
+                offer.filename = unique_filename
+                file.save(os.path.join(UPLOAD_OFFER_FOLDER, unique_filename))
 
-        notif = Notification(notification_from=current_user, notification_to=user, not_type=4)
-        db.session.add(offer)
-        db.session.add(notif)
-        db.session.commit()
-        flash("Teklifiniz Başarıyla iletildi.")
-        return redirect(request.url)
+            notif = Notification(notification_from=current_user, notification_to=user, not_type=4)
+            db.session.add(offer)
+            db.session.add(notif)
+            db.session.commit()
+            flash("Teklifiniz Başarıyla iletildi.")
+            return redirect(request.url)
+        else:
+            flash("Teklif sunabilmek için giriş yapmalısınız!")
+            return redirect(url_for('account.login'))
 
 @public.route('/freelancers')
 def browseFreelancers():
+    with open("category.json") as category:
+        categories = json.load(category)
     page = request.args.get('page', 1, type=int)
     users = Users.query.filter_by(status='professional').paginate(page=page, per_page=3)
-    return render_template('freelancers-list.html', users=users, last_updated=last_updated)
+    return render_template('freelancers-list.html', users=users, last_updated=last_updated, categories=categories)
 
 @public.app_errorhandler(404)
 def page_not_found(e):

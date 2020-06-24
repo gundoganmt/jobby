@@ -125,7 +125,7 @@ class Users(UserMixin, db.Model):
 
     def check_status(self):
         skill = self.UserSkills.all()
-        if self.field_of_work and self.tagline and self.introduction and len(skill)>0:
+        if self.field_of_work and self.tagline and self.introduction and len(skill)>0 and self.email_approved:
             self.status = 'professional'
         else:
             self.status = 'employer'
