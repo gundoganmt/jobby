@@ -189,10 +189,11 @@
 								<span class="bidding-detail"><strong>En duşuk ucretini belirle</strong></span>
 
 								<!-- Price Slider -->
-								<div class="bidding-value"><span></span></div>
 								{% if not task.budget_max %}
-									<input class="with-border" type="number" name="bid_amount" min="10" max="1000000" step="10" placeholder="En az" value="">
+									<div class="bidding-value"></div>
+									<input class="with-border" type="number" name="bid_amount" min="10" max="1000000" step="1" placeholder="10" value="">
 								{% else %}
+									<div class="bidding-value"><span id="biddingVal"></span>TL</div>
 									<input class="bidding-slider" name="bid_amount" type="text" value="" data-slider-handle="custom" data-slider-currency="TL" data-slider-min="{{ task.budget_min }}" data-slider-max="{{ task.budget_max }}" data-slider-value="auto" data-slider-step="10" data-slider-tooltip="hide" />
 								{% endif %}
 								<!-- Headline -->
@@ -204,7 +205,7 @@
 										<!-- Quantity Buttons -->
 										<div class="qtyButtons">
 											<div class="qtyDec"></div>
-											<input type="text" name="qtyInput" value="1">
+											<input type="number" name="qtyInput" min="1" max="1000" step="1" value="1">
 											<div class="qtyInc"></div>
 										</div>
 									</div>
@@ -243,8 +244,10 @@
 								<!-- Price Slider -->
 								<div class="bidding-value"><span></span></div>
 								{% if not task.budget_max %}
-									<input class="with-border" type="number" name="budget_min" min="10" step="10" placeholder="En az" value="">
+									<div class="bidding-value"></div>
+									<input class="with-border" type="number" name="budget_min" min="10" max="1000000" step="1" placeholder="10" value="">
 								{% else %}
+									<div class="bidding-value"><span id="biddingVal"></span>TL</div>
 									<input class="bidding-slider" name="SlideVal" type="text" value="" data-slider-handle="custom" data-slider-currency="TL" data-slider-min="{{ task.budget_min }}" data-slider-max="{{ task.budget_max }}" data-slider-value="auto" data-slider-step="10" data-slider-tooltip="hide" />
 								{% endif %}
 								<!-- Headline -->

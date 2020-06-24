@@ -11,7 +11,7 @@ def dashboard():
     if len(tasks) == 0:
         flash("Proje ilanlarınızın göruntuleme sayıları burada görunur.")
     views = Views.query.filter_by(viewed=current_user).first()
-    return render_template('dashboard.html', views=views, tasks=tasks)
+    return render_template('dashboard.html', views=views, tasks=tasks, last_updated=last_updated)
 
 @csrf.exempt
 @manage.route('/reviews', methods=['GET', 'POST'])
