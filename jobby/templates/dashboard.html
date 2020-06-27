@@ -195,6 +195,28 @@
 											</div>
 										</li>
 									{% endif %}
+									{% if nt.not_type == 4 %}
+										<li>
+											<span class="notification-icon"><i class="icon-material-outline-local-offer"></i></span>
+											<span class="notification-text">
+												<strong>{{ nt.notification_from }} </strong> size teklif sundu.
+											</span>
+											<div class="buttons-to-right">
+												<button class="button red" data-tippy-placement="top" data-tippy-theme="light">Sil</button>
+											</div>
+										</li>
+									{% endif %}
+									{% if nt.not_type == 5 %}
+										<li>
+											<span class="notification-icon"><i class="icon-material-outline-rate-review"></i></span>
+											<span class="notification-text">
+												<strong>{{ nt.notification_from }} </strong> size <a href="#">{{ nt.notedTask }}</a> işi için puan verdi.
+											</span>
+											<div class="buttons-to-right">
+												<button class="button red" data-tippy-placement="top" data-tippy-theme="light">Sil</button>
+											</div>
+										</li>
+									{% endif %}
 								{% endfor %}
 							</ul>
 						</div>

@@ -60,12 +60,117 @@
 
 				{% if current_user.status == 'professional' %}
 				<!-- Dashboard Box -->
-					<div class="col-xl-12">
+					{% if i_review %}
+					<div class="row">
+						<div class="col-xl-6">
+							<div class="dashboard-box margin-top-0">
+
+								<!-- Headline -->
+								<div class="headline">
+									<h3><i class="icon-material-outline-business"></i> Değerlendirilmeler</h3>
+								</div>
+
+								<div class="content">
+									<ul class="dashboard-box-list">
+										{% for rv in my_reviews %}
+											{% if not rv.rating %}
+												<li>
+													<div class="boxed-list-item">
+														<!-- Content -->
+														<div class="item-content">
+															<h4>{{ rv.reviewed }}</h4>
+															<span class="company-not-rated margin-bottom-5">Değerlendirilmediniz</span>
+														</div>
+													</div>
+												</li>
+											{% else %}
+												<li>
+													<div class="boxed-list-item">
+														<!-- Content -->
+														<div class="item-content">
+															<h4>{{ rv.reviewed }}</h4>
+															<div class="item-details margin-top-10">
+																<div class="star-rating" data-rating="{{ rv.rating }}"></div>
+																<div class="detail-item"><i class="icon-feather-user"></i> {{ rv.reviewed_emp }}</div>
+															</div>
+															<div class="item-description">
+																<p>{{ rv.body }}</p>
+																<!-- {% if rv.reply %}
+																	<div class="replyReview">
+																		<h4>{{ rv.reviewed_pro }}</h4>
+																		<p>{{ rv.reply }}<p>
+																	</div>
+																	{% else %}
+																	<div class="replyReview">
+																		<h4></h4>
+																		<p id="{{ rv.id }}"><p>
+																	</div>
+																{% endif %} -->
+															</div>
+														</div>
+													</div>
+													<!-- <textarea class="with-border" placeholder="Cevabınız" cols="7" style="min-height: 90px;"></textarea>
+													<a class="button gray ripple-effect margin-top-5 margin-bottom-10" data="{{ rv.id }}" name="reply"><i class="icon-line-awesome-reply"></i> Cevapla</a> -->
+												</li>
+											{% endif %}
+										{% endfor %}
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6">
+							<div class="dashboard-box margin-top-0">
+
+								<!-- Headline -->
+								<div class="headline">
+									<h3><i class="icon-material-outline-face"></i> Değerlendir</h3>
+								</div>
+
+								<div class="content">
+									<ul class="dashboard-box-list">
+										{% for rv in i_review %}
+											{% if not rv.rating %}
+												<li>
+													<div class="boxed-list-item">
+														<!-- Content -->
+														<div class="item-content">
+															<h4>{{ rv.reviewed }}</h4>
+															<span class="company-not-rated margin-bottom-5">Değerlendirmediniz</span>
+														</div>
+													</div>
+
+													<a href="#small-dialog-2" name="rate" data="{{ rv.id }}" class="popup-with-zoom-anim button ripple-effect margin-top-5 margin-bottom-10"><i class="icon-material-outline-thumb-up"></i> Değerlendir</a>
+												</li>
+											{% else %}
+												<li>
+													<div class="boxed-list-item">
+														<!-- Content -->
+														<div class="item-content">
+															<h4>{{ rv.reviewed }}</h4>
+															<div class="item-details margin-top-10">
+																<div class="star-rating" data-rating="{{ rv.rating }}"></div>
+																<div class="detail-item"><i class="icon-feather-user"></i> {{ rv.reviewed_pro }}</div>
+															</div>
+															<div class="item-description">
+																<p>{{ rv.body }}</p>
+															</div>
+														</div>
+													</div>
+												</li>
+											{% endif %}
+										{% endfor %}
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					{% else %}
+						<div class="col-xl-12">
 						<div class="dashboard-box margin-top-0">
 
 							<!-- Headline -->
 							<div class="headline">
-								<h3><i class="icon-material-outline-business"></i> Değerlendirmeler</h3>
+								<h3><i class="icon-material-outline-business"></i> Değerlendirilmeler</h3>
 							</div>
 
 							<div class="content">
@@ -116,6 +221,7 @@
 							</div>
 						</div>
 					</div>
+					{% endif %}
 				{% else %}
 				<!-- Dashboard Box -->
 					<div class="col-xl-12">

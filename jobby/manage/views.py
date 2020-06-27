@@ -22,11 +22,12 @@ def reviews():
         for notif in notifs:
             notif.seen = True
         db.session.commit()
+        i_review = Reviews.query.filter_by(reviewed_emp=current_user).all()
         if current_user.status == 'professional':
             my_reviews = Reviews.query.filter_by(reviewed_pro=current_user).all()
         else:
             my_reviews = Reviews.query.filter_by(reviewed_emp=current_user).all()
-        return render_template('reviews.html', my_reviews=my_reviews)
+        return render_template('reviews.html', my_reviews=my_reviews, i_review=i_review)
     else:
         review_id, recom, intime, rating = request.form['RadioValues'].split()
         comment = request.form['comment']
@@ -39,13 +40,10 @@ def reviews():
             review.in_time = True
         else:
             review.in_time = False
-        review.rating = int(rating)
+        review.rating = float(rating)
         review.body = comment
-        review.reviewed_pro.addRating(int(rating))
-        notif = Notification(notification_to=review.reviewed_pro, notification_from=reviewed_emp, notedTask=review.reviewed, not_type=5)
-        db.session.add(notif)
-        db.session.commit()
-
+        notif = Notification(notification_to=review.reviewed_pro, notification_from=review.reviewed_emp, notedTask=review.reviewed, not_type=5)
+        review.reviewed_pro.addRating(float(rating))
         return redirect(request.url)
 
 @manage.route('/get-review/<int:review_id>')

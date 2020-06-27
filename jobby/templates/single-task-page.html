@@ -191,7 +191,7 @@
 								<!-- Price Slider -->
 								{% if not task.budget_max %}
 									<div class="bidding-value"></div>
-									<input class="with-border" type="number" name="bid_amount" min="10" max="1000000" step="1" placeholder="10" value="">
+									<input class="with-border" type="number" name="bid_amount" min="10" max="1000000" step="1" value="10">
 								{% else %}
 									<div class="bidding-value"><span id="biddingVal"></span>TL</div>
 									<input class="bidding-slider" name="bid_amount" type="text" value="" data-slider-handle="custom" data-slider-currency="TL" data-slider-min="{{ task.budget_min }}" data-slider-max="{{ task.budget_max }}" data-slider-value="auto" data-slider-step="10" data-slider-tooltip="hide" />
@@ -245,10 +245,10 @@
 								<div class="bidding-value"><span></span></div>
 								{% if not task.budget_max %}
 									<div class="bidding-value"></div>
-									<input class="with-border" type="number" name="budget_min" min="10" max="1000000" step="1" placeholder="10" value="">
+									<input class="with-border" type="number" name="bid_amount" min="10" max="1000000" step="1" value="10">
 								{% else %}
 									<div class="bidding-value"><span id="biddingVal"></span>TL</div>
-									<input class="bidding-slider" name="SlideVal" type="text" value="" data-slider-handle="custom" data-slider-currency="TL" data-slider-min="{{ task.budget_min }}" data-slider-max="{{ task.budget_max }}" data-slider-value="auto" data-slider-step="10" data-slider-tooltip="hide" />
+									<input class="bidding-slider" name="bid_amount" type="text" value="" data-slider-handle="custom" data-slider-currency="TL" data-slider-min="{{ task.budget_min }}" data-slider-max="{{ task.budget_max }}" data-slider-value="auto" data-slider-step="10" data-slider-tooltip="hide" />
 								{% endif %}
 								<!-- Headline -->
 								<span class="bidding-detail margin-top-30"><strong>Tamamlama sureni belirle</strong></span>

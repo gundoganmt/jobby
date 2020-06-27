@@ -1,4 +1,23 @@
 import os
+from flask_mail import Message
+from threading import Thread
+from flask import url_for
+
+def send_async_email(msg):
+    with app.app_context():
+        mail.send(msg)
+
+def send_confirmation_email(user):
+    token = user.get_confirmation_token()
+    msg = Message(subject='Email doğrulama linki',
+        sender="destek@jobby.net",
+        recipients=[user.email])
+    msg.body = f"""Mail adresinizi doğrulamak için lutfen aşağıdaki linke tıklayın.
+    {url_for('account.confirm_email', token=token, _external=True)}
+    Eğer bu mail size yanlışlıkla geldiyse herhangi birşey yapmanıza gerek yoktur.
+    """
+    thr = Thread(target=send_async_email, args=[msg])
+    thr.start()
 
 def dir_last_updated(folder):
     return str(max(os.path.getmtime(os.path.join(root_path, f))

@@ -40,6 +40,9 @@ def task_page(task_id):
                 return redirect(request.url)
             else:
                 bid_amount = request.form['bid_amount']
+                if not bid_amount:
+                    flash('Teklif miktarını girmediniz!')
+                    return redirect(request.url)
                 num_delivery = request.form['qtyInput']
                 type_delivery = request.form['time']
                 msg = request.form['message']
@@ -73,7 +76,7 @@ def browseTasks():
     elif category:
         tasks = Tasks.query.filter_by(category=category).paginate(page=page, per_page=3)
     else:
-        tasks = Tasks.query.paginate(page=page, per_page=10)
+        tasks = Tasks.query.paginate(page=page, per_page=5)
     return render_template('tasks-list.html', tasks=tasks, last_updated=last_updated,
         location=location, category=category)
 

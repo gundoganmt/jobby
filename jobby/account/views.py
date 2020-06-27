@@ -1,10 +1,10 @@
-from flask import render_template, request, Blueprint, redirect, url_for, flash
+from flask import render_template, request, Blueprint, redirect, url_for, flash, abort
 from werkzeug.security import generate_password_hash, check_password_hash
 from jobby.models import Users, Notification
 from datetime import datetime
-from jobby import db, login_manager, mail
+from jobby import db, login_manager
 from flask_login import login_user, logout_user, login_required, current_user
-from flask_mail import Message
+from utils import send_confirmation_email
 
 account = Blueprint('account',__name__)
 
@@ -32,24 +32,16 @@ def login():
             return render_template('pages-login.html')
     return render_template('pages-login.html')
 
-def send_confirmation_email(user):
-    token = user.get_confirmation_token()
-    msg = Message('Email doğrulama linki',
-        sender="mahmut@jobby.net",
-        recipients=[user.email])
-    msg.body = f"""Mail adresinizi doğrulamak için lutfen aşağıdaki linke tıklayın.
-    {url_for('account.confirm_email', token=token, _external=True)}
-    Eğer bu mail size yanlışlıkla geldiyse herhangi birşey yapmanıza gerek yoktur.
-    """
-    mail.send(msg)
-
 @account.route('/confirm_email/<token>')
 def confirm_email(token):
     user = Users.verify_confirmation_token(token)
+    if not user:
+        abort(404)
+    notif = Notification.query.filter_by(notification_to=current_user, not_type=2).first_or_404()
+    db.session.delete(notif)
     user.email_approved = True
     db.session.commit()
-    flash("Email adresiniz doğrulandı", "info")
-    return redirect(url_for('public.index'))
+    return render_template('email_confirmation_notification.html')
 
 @account.route('/signup', methods=['GET','POST'])
 def signup():

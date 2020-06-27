@@ -135,8 +135,8 @@
 						<div class="freelancer-details-list">
 							<ul>
 								<li>Şehir <strong><i class="icon-material-outline-location-on"></i> {{ user.province }}</strong></li>
-								<li>Başarı<strong>{{ user.recom() }}</strong></li>
-								<li>Tavsiye<strong>{{ user.intime() }}</strong></li>
+								<li>Başarı<strong>%{{ user.recom() }}</strong></li>
+								<li>Tavsiye<strong>%{{ user.intime() }}</strong></li>
 							</ul>
 						</div>
 						<a href="{{ url_for('public.freelancer', user_id=user.id) }}" class="button button-sliding-icon ripple-effect">Profili Gör <i class="icon-material-outline-arrow-right-alt"></i></a>

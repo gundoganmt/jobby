@@ -3,6 +3,7 @@ from jobby import db
 from sqlalchemy import or_
 from datetime import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+import math
 
 UserSkills = db.Table('UserSkills',
     db.Column("user_id",db.Integer, db.ForeignKey('Users.id'), primary_key=True),
@@ -42,11 +43,12 @@ class Users(UserMixin, db.Model):
     email = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(80))
     status = db.Column(db.String(15), default="employer")
-    rating = db.Column(db.Integer, default=0.0)
+    rating = db.Column(db.Float, default=0.0)
     num_of_rating = db.Column(db.Integer, default=0)
+    total_rating = db.Column(db.Integer, default=0)
     email_approved = db.Column(db.Boolean, default=False)
     setting_completed = db.Column(db.Boolean, default=False)
-    introduction = db.Column(db.Text,default="")
+    introduction = db.Column(db.Text, default="")
     message_sid = db.Column(db.String(80), default="")
     num_bids = db.Column(db.Integer, default=0)
     member_since = db.Column(db.DateTime)
@@ -158,9 +160,11 @@ class Users(UserMixin, db.Model):
         db.session.commit()
 
     def addRating(self, rating):
-        total = self.num_of_rating * self.rating
+        if not self.total_rating:
+            self.total_rating = 0
+        self.total_rating += rating
         self.num_of_rating += 1
-        self.rating = (total+rating)/self.num_of_rating
+        self.rating = round((self.total_rating)/float(self.num_of_rating), 1)
         db.session.commit()
 
     def total_win(self):
@@ -173,13 +177,13 @@ class Users(UserMixin, db.Model):
         total_success = Reviews.query.filter_by(reviewed_pro=self, recommendation=True).count()
         if self.total_reviews() == 0:
             return 0
-        return (total_success/self.total_reviews())*100
+        return math.floor((total_success/self.total_reviews())*100)
 
     def intime(self):
         total_success = Reviews.query.filter_by(reviewed_pro=self, in_time=True).count()
         if self.total_reviews() == 0:
             return 0
-        return (total_success/self.total_reviews())*100
+        return math.floor((total_success/self.total_reviews())*100)
 
     def is_offered(self):
         return Offers.query.filter_by(offered=self).count() > 0
@@ -254,7 +258,7 @@ class Reviews(UserMixin, db.Model):
     in_time = db.Column(db.Boolean, nullable=True)
     body = db.Column(db.String(300), nullable=True)
     reply = db.Column(db.String(300), nullable=True)
-    rating = db.Column(db.Integer)
+    rating = db.Column(db.Float)
     task_id = db.Column(db.Integer, db.ForeignKey('Tasks.id'))
     professional = db.Column(db.Integer, db.ForeignKey('Users.id'))
     employer = db.Column(db.Integer, db.ForeignKey('Users.id'))

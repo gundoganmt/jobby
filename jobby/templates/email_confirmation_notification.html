@@ -55,12 +55,17 @@
 
 	<div class="row">
 		<div class="col-xl-12">
-
+			{% if current_user.email_approved %}
+			<div class="notification success closeable">
+				<p>Email adresiniz doğrulandı!</p>
+				<a class="close"></a>
+			{% else %}
       <div class="notification notice closeable">
 				<p>Doğrulama emaili adresinize gönderildi. Statunuz "İşveren" olarak belirlendi. Bu statude profesyonelleri arayabilir, ilanlara bakabilir,
           email adresinizi doğruladıktan sonra proje ilanı verebilirsiniz. Statunuzu "Profesyonel" yapmak için ayarlar kısmında gerekli bilgileri doldurmalisınız.
           "Profesyonel" statusunde kendi sayfanız olur, proje ilanı verebilir, onlara teklif verebilir, projeleri arayabilirsiniz.</p>
 				<a class="close"></a>
+			{% endif %}
 			</div>
 
 
