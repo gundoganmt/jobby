@@ -26,14 +26,14 @@
 <!-- Header Container / End -->
 
 <!-- Spacer -->
-<div class="margin-top-90"></div>
+<div class="margin-top-50"></div>
 <!-- Spacer / End-->
 
 <!-- Page Content
 ================================================== -->
 <div class="container">
 	<div class="row">
-		<div class="col-xl-3 col-lg-4">
+		<div class="col-xl-3 col-lg-4" id="filterForm">
 			<div class="sidebar-container">
 
 				<!-- Location -->
@@ -54,25 +54,15 @@
 				<!-- Category -->
 				<div class="sidebar-widget">
 					<h3>Kategori</h3>
-					<select name="category" class="selectpicker with-border" data-size="7" title="Kategori Seçin" data-live-search="true">
-						<option value="BT">Websiteleri, BT ve Yazılım</option>
-						<option value="ceviri">Çeviri ve İçerik</option>
-						<option value="temizlik">Temizlik İşleri</option>
-						<option value="tasarim">Tasarım ve Mimari</option>
-						<option value="veri">Veri Girişi ve Yönetimi</option>
-						<option value="bilim">Muhendislik ve Bilim</option>
-						<option value="satis">Satış ve Dijital Pazarlama</option>
-						<option value="nakliye">Yukleme ve Nakliye</option>
-						<option value="hukuk">İşletme, Hukuk ve Muhasebe</option>
-						<option value="egitim">Eğitim ve Çalışma</option>
-						<option value="yerel">Yerel iş ve Hizmetler</option>
-						<option value="diger">Diğer</option>
+					<select name="category" class="selectpicker with-border" data-size="7" title="Hepsi" data-live-search="true">
+						{% for key, value in categories.items() %}
+							{% if ct == key %}
+								<option value="{{ key }}" selected>{{ value }}</option>
+							{% else %}
+								<option value="{{ key }}">{{ value }}</option>
+							{% endif %}
+						{% endfor %}
 					</select>
-					<div class="task-tags">
-						{% if category %}
-							<span>{{ category }}</span>
-						{% endif %}
-					</div>
 				</div>
 
 				<!-- Keywords -->
@@ -106,7 +96,9 @@
 			<h3 class="page-title">Arama Sonuçları</h3>
 
 			<div class="notify-box margin-top-15">
-
+				<div class="switch-container" id="filter">
+					<i class="icon-feather-filter"></i> filtrele
+				</div>
 				<div class="sort-by">
 					<span>Sırala:</span>
 					<select class="selectpicker hide-tick">
@@ -257,6 +249,13 @@ $('#snackbar-user-status label').click(function() {
 	}
 </script>
 
+<script type="text/javascript">
+	filter = document.getElementById('filter');
+	filterForm = document.getElementById('filterForm');
+	filter.addEventListener('click', () => {
+		filterForm.style.display = "block";
+	})
+</script>
 <!-- Google API & Maps -->
 <!-- Geting an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key -->
 <script src="https://maps.googleapis.com/maps/api/js?key=&libraries=places"></script>

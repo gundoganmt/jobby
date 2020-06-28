@@ -3162,6 +3162,30 @@ body #backtotop a {
 }
 
 @media (max-width: 992px) {
+	#filterForm{
+		display: none;
+	}
+}
+
+@media (max-width: 992px) {
+	#bigSalaryBox{
+		display: none;
+	}
+	#smallSalaryBox{
+		float: right;
+    padding: 10px 15px;
+    background-color: white;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+	}
+}
+
+@media (min-width: 992px) {
+	#smallSalaryBox{
+		display: none;
+	}
+}
+
+@media (max-width: 992px) {
 	.single-page-header .single-page-header-inner {
 	    display: flex;
 	    flex-direction: column;
@@ -6722,7 +6746,7 @@ table.basic-table { margin-bottom: 0; }
 /* Star Rating
 ------------------------------------- */
 /* Star Rating */
-.star-rating { display: inline-block; }
+.star-rating { display: flex; }
 
 .star-rating .star {
 	display: inline-block;

@@ -38,6 +38,16 @@
 						{% else %}
 							<div class="header-image"><a href="{{ url_for('public.freelancer', user_id=task.poster.id)}}"><img src="{{ url_for('static', filename='images/'+task.poster.profile_picture) }}" alt=""></a></div>
 						{% endif %}
+
+						<div class="salary-box" id="smallSalaryBox">
+							<div class="salary-type">Proje Butçesi</div>
+							{% if not task.budget_max %}
+								<div class="salary-amount">Belirtilmemiş</div>
+							{% else %}
+								<div class="salary-amount">{{ task.budget_min }} TL - {{task.budget_max }} TL</div>
+							{% endif %}
+						</div>
+
 						<div class="header-details">
 							<h3>{{ task }}</h3>
 							<h5>İşveren Hakkında</h5>
@@ -47,13 +57,13 @@
 								{% else %}
 									<li><a href="{{ url_for('public.freelancer', user_id=task.poster.id) }}"><i class="icon-material-outline-business"></i> {{ task.poster }}</a></li>
 								{% endif %}
-								<li> {{ task.location }}</li>
+								<li> <i class="icon-material-outline-location-on"></i>{{ task.location }}</li>
 								<li><div class="verified-badge-with-title">Onaylandı</div></li>
 							</ul>
 						</div>
 					</div>
 					<div class="right-side">
-						<div class="salary-box">
+						<div class="salary-box" id="bigSalaryBox">
 							<div class="salary-type">Proje Butçesi</div>
 							{% if not task.budget_max %}
 								<div class="salary-amount">Belirtilmemiş</div>

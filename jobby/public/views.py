@@ -67,9 +67,11 @@ def job_page(job_id):
 
 @public.route('/browse-tasks')
 def browseTasks():
-    location = request.args.get('location', type=str)
-    keyword = request.args.get('keyword', type=str)
-    category = request.args.get('category', type=str)
+    with open("category.json") as category:
+        categories = json.load(category)
+    location = request.args.get('lc', type=str)
+    keyword = request.args.get('kw', type=str)
+    category = request.args.get('ct', type=str)
     page = request.args.get('page', 1, type=int)
     if location:
         tasks = Tasks.query.filter_by(location=location).paginate(page=page, per_page=3)
@@ -78,7 +80,7 @@ def browseTasks():
     else:
         tasks = Tasks.query.paginate(page=page, per_page=5)
     return render_template('tasks-list.html', tasks=tasks, last_updated=last_updated,
-        location=location, category=category)
+        lc=location, ct=category, categories=categories)
 
 @public.route('/freelancer/<int:user_id>', methods=['GET', 'POST'])
 def freelancer(user_id):

@@ -26,14 +26,14 @@
 <!-- Header Container / End -->
 
 <!-- Spacer -->
-<div class="margin-top-90"></div>
+<div class="margin-top-50"></div>
 <!-- Spacer / End-->
 
 <!-- Page Content
 ================================================== -->
 <div class="container">
 	<div class="row">
-		<div class="col-xl-3 col-lg-4">
+		<div class="col-xl-3 col-lg-4" id="filterForm">
 			<div class="sidebar-container">
 
 				<!-- Location -->
@@ -83,7 +83,9 @@
 			<h3 class="page-title">Arama Sonuçları</h3>
 
 			<div class="notify-box margin-top-15">
-
+				<div class="switch-container" id="filter">
+					<i class="icon-feather-filter"></i> filtrele
+				</div>
 				<div class="sort-by">
 					<span>Sırala:</span>
 					<select class="selectpicker hide-tick">
@@ -223,17 +225,12 @@ $('#snackbar-user-status label').click(function() {
 });
 </script>
 
-<!-- Google Autocomplete -->
-<script>
-	function initAutocomplete() {
-		 var options = {
-		  types: ['(cities)'],
-		  // componentRestrictions: {country: "us"}
-		 };
-
-		 var input = document.getElementById('autocomplete-input');
-		 var autocomplete = new google.maps.places.Autocomplete(input, options);
-	}
+<script type="text/javascript">
+	filter = document.getElementById('filter');
+	filterForm = document.getElementById('filterForm');
+	filter.addEventListener('click', () => {
+		filterForm.style.display = "block";
+	})
 </script>
 
 <!-- Google API & Maps -->
