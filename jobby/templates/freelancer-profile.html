@@ -48,7 +48,7 @@
 								{% if user.rating == 0 %}
 									<span class="company-not-rated">Puanı yok</span>
 								{% else %}
-									<li><div class="star-rating" data-rating="{{ user.rating }}"></div></li>
+									<li><div class="star-rating inline-stars" data-rating="{{ user.rating }}"></div></li>
 								{% endif %}
 								<li><i class="icon-material-outline-location-on"></i> {{ user.province }}</li>
 								<li><div class="verified-badge-with-title">Onaylandı</div></li>

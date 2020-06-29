@@ -6746,7 +6746,10 @@ table.basic-table { margin-bottom: 0; }
 /* Star Rating
 ------------------------------------- */
 /* Star Rating */
+
 .star-rating { display: flex; }
+
+.inline-stars { display: inline-block; }
 
 .star-rating .star {
 	display: inline-block;

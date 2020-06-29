@@ -20,7 +20,7 @@ def index():
         keyword = request.form['keyword']
         return redirect(url_for('.browseTasks', location=location, keyword=keyword))
     else:
-        users = Users.query.all()[:5]
+        users = Users.query.filter_by(status='professional').all()[:5]
         featured_tasks = Tasks.query.all()[:3]
         if current_user.is_authenticated:
             return render_template('index-logged-out.html', users=users, featured_tasks=featured_tasks, last_updated=last_updated)
