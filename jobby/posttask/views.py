@@ -16,7 +16,7 @@ def post_task():
         budget_min = request.form["budget_min"]
         budget_max = request.form["budget_max"]
         category = request.form["category"]
-        description = bleach.clean(request.form["description"], tags=bleach.sanitizer.ALLOWED_TAGS+['u', 'br', 'h1', 'h2', 'h3', 'p'])
+        description = bleach.clean(request.form["description"], tags=bleach.sanitizer.ALLOWED_TAGS+['u', 'br', 'p'])
         skills = request.form["skillsHidden"]
 
         #validate form

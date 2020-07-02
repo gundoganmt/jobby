@@ -2,7 +2,7 @@ from flask import render_template, Blueprint, request, flash, redirect, url_for,
 from flask_login import current_user, login_required
 from jobby.models import Users, Skills, WorkExperiences, Educations
 from jobby import db, last_updated, csrf
-import os, uuid, re, json
+import os, uuid, re, json, bleach
 from PIL import Image
 from utils import crop_max_square, allowed_img_file, get_extension, UPLOAD_IMG_FOLDER
 from werkzeug.utils import secure_filename
@@ -43,7 +43,7 @@ def setting_profile():
     current_user.field_of_work = data['field_of_work']
     current_user.tagline = data['tagline']
     current_user.province = data['province']
-    current_user.introduction = data['introduction']
+    current_user.introduction = bleach.clean(data['introduction'], tags=bleach.sanitizer.ALLOWED_TAGS+['u', 'br', 'p'])
     current_user.check_status()
     db.session.commit()
     return jsonify({"success": True, "settingType": "p", "msg": "Profil ayarlarınız değişti."})
@@ -63,9 +63,10 @@ def setting_skill():
 @login_required
 def setting_workExp():
     data = request.get_json(force=True)
+    description = bleach.clean(data['desc_work'], tags=bleach.sanitizer.ALLOWED_TAGS+['u', 'br', 'p'])
     workExp = WorkExperiences(position=data['position'], company=data['company'], start_month=data['start_month_job'],
         start_year=data['start_year_job'], end_month=data['end_month_job'], end_year=data['end_year_job'],
-        description=data['desc_work'], user_id=current_user.id)
+        description=description, user_id=current_user.id)
     db.session.add(workExp)
     db.session.commit()
     return jsonify({"success": True, "settingType": 'w', 'workExp_id': workExp.id, "workExp": workExp.position})
@@ -74,9 +75,10 @@ def setting_workExp():
 @login_required
 def setting_education():
     data = request.get_json(force=True)
+    description = bleach.clean(data['desc_edu'], tags=bleach.sanitizer.ALLOWED_TAGS+['u', 'br', 'p'])
     edu = Educations(field=data['field'], school=data['school'], start_month=data['start_month_edu'],
         start_year=data['start_year_edu'], end_month=data['end_month_edu'], end_year=data['end_year_edu'],
-        description=data['desc_edu'], user_id=current_user.id)
+        description=description, user_id=current_user.id)
     db.session.add(edu)
     db.session.commit()
     return jsonify({"success": True, "settingType": 'e', "edu_id": edu.id, "edu": edu.field})

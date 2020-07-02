@@ -231,6 +231,7 @@
 										<div class="submit-field">
 											<h5>Projenizi Anlatın <i class="help-icon" data-tippy-placement="right" title="Projeniz hakkında en az 30 karakterlik açıklama yapın"></i></h5>
 										</div>
+										<div class="submit-field" id="toolbar"></div>
 										<div class="submit-field" id="editor"></div>
 									  <input type='hidden' name="description" id="quillField" value=""/>
 									</div>
@@ -343,8 +344,17 @@ $('#textareaid').keypress(function(e){
 </script>
 
 <script>
+
+	var toolbarOptions = [
+		['bold', 'italic', 'underline', 'link'],
+		[{'list': 'ordered'}, {'list': 'bullet'}]
+	];
+
   var quill = new Quill('#editor', {
-    theme: 'snow'
+    theme: 'snow',
+		modules: {
+			toolbar: toolbarOptions
+		}
   });
 </script>
 

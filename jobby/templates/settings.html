@@ -454,6 +454,7 @@
 										<div class="submit-field">
 											<h5>Açıklama</h5>
 										</div>
+
 										<div class="submit-field" id="editor2"></div>
 										<input type='hidden' name="description" id="desc_work" value=""/>
 										<a class="button saveSetting" data="workExp"><i class="icon-feather-save"></i> Kaydet</a>
@@ -784,16 +785,31 @@ $('#snackbar-user-status label').click(function() {
 </script>
 
 <script>
+
+	var toolbarOptions = [
+		['bold', 'italic', 'underline', 'link'],
+		[{'list': 'ordered'}, {'list': 'bullet'}]
+	];
+
   var quill = new Quill('#editor', {
-    theme: 'snow'
+    theme: 'snow',
+		modules: {
+			toolbar: toolbarOptions
+		}
   });
 
 	var quill2 = new Quill('#editor2', {
-    theme: 'snow'
+    theme: 'snow',
+		modules: {
+			toolbar: toolbarOptions
+		}
   });
 
 	var quill3 = new Quill('#editor3', {
-    theme: 'snow'
+    theme: 'snow',
+		modules: {
+			toolbar: toolbarOptions
+		}
   });
 </script>
 
