@@ -45,13 +45,13 @@ def create_app(config_class=Config):
     from jobby.manage.views import manage
     from jobby.message.views import message
     from jobby.setting.views import setting
-    #from jobby.postjob.views import postjob
+    from jobby.postjob.views import postjob
     app.register_blueprint(account)
     app.register_blueprint(public)
     app.register_blueprint(posttask)
     app.register_blueprint(manage)
     app.register_blueprint(message)
     app.register_blueprint(setting)
-    #app.register_blueprint(postjob)
+    app.register_blueprint(postjob)
 
     return app

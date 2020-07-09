@@ -1,6 +1,7 @@
 from flask import render_template, request, Blueprint, redirect, url_for, flash, abort
 from werkzeug.security import generate_password_hash, check_password_hash
 from jobby.models import Users, Notification
+from jobby.JobModels import Company
 from datetime import datetime
 from jobby import db, login_manager
 from flask_login import login_user, logout_user, login_required, current_user
@@ -48,25 +49,39 @@ def signup():
     if current_user.is_authenticated:
         return redirect(url_for('public.index'))
     if request.method == 'POST':
-        name = request.form['name'].lower()
-        surname = request.form['surname'].lower()
         email = request.form['email']
+        account_type = request.form['account-type-radio']
         password = request.form['password']
         confirm = request.form['confirm']
         hashed_password = generate_password_hash(password, method='sha256')
-        existing_user = Users.query.filter_by(email=email).first()
-        if existing_user is None:
-            user = Users(name=name, surname=surname, email=email, password=hashed_password,
-                member_since=datetime.utcnow())
-            notif = Notification(notification_to=user, not_type=2)
-            db.session.add(user)
-            db.session.add(notif)
-            db.session.commit()
-            login_user(user)
-            #send_confirmation_email(user)
-            return render_template('email_confirmation_notification.html')
-        flash('Email adresi kullanılıyor')
-        return render_template('pages-register.html')
+        if account_type == 'freelancer':
+            existing_user = Users.query.filter_by(email=email).first()
+            if existing_user is None:
+                user = Users(email=email, password=hashed_password,
+                    member_since=datetime.utcnow())
+                notif = Notification(notification_to=user, not_type=2)
+                db.session.add(user)
+                db.session.add(notif)
+                db.session.commit()
+                login_user(user)
+                #send_confirmation_email(user)
+                return render_template('email_confirmation_notification.html')
+            flash('Email adresi kullanılıyor')
+            return render_template('pages-register.html')
+        else:
+            existing_company = Company.query.filter_by(email=email).first()
+            if existing_company is None:
+                company = Company(email=email, password=hashed_password,
+                    member_since=datetime.utcnow())
+                #notif = Notification(notification_to=user, not_type=2)
+                db.session.add(company)
+                #db.session.add(notif)
+                db.session.commit()
+                login_user(company)
+                #send_confirmation_email(user)
+                return render_template('email_confirmation_notification.html')
+            flash('Email adresi kullanılıyor')
+            return redirect(request.url)
     return render_template('pages-register.html')
 
 @account.route('/logout')

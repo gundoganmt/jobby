@@ -194,7 +194,11 @@
 								<div class="user-details">
 									<div class="user-avatar status-online"><img src="{{ url_for('static', filename='images/'+current_user.profile_picture) }}" alt=""></div>
 									<div class="user-name">
-										{{ current_user }}
+										{% if current_user.name %}
+											{{ current_user }}
+										{% else %}
+											{{ current_user.email }}
+										{% endif %}
 										{% if current_user.status == 'employer' %}
 											<span>İşveren</span>
 										{% else %}

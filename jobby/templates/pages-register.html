@@ -6,10 +6,9 @@
 ================================================== -->
 <title>Jobby</title>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<!-- CSS
-================================================== -->
+<!-- ================================================== -->
 <link rel="stylesheet" href="/static/css/style.css?u={{ last_updated }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/colors/blue.css') }}">
 
@@ -71,19 +70,17 @@
 				<!-- Form -->
 				<form method="post" action="{{ url_for('account.signup') }}" id="register-account-form">
 					<input type='hidden' name="csrf_token" value="{{ csrf_token() }}"/>
-					<div class="input-with-icon-left">
-						<i class="icon-feather-user"></i>
-						<input type="text" class="input-text with-border" name="name" id="name" placeholder="İsminiz"/>
+					<div class="account-type">
+						<div>
+							<input type="radio" name="account-type-radio" id="freelancer-radio" class="account-type-radio" value="freelancer" checked/>
+							<label for="freelancer-radio" class="ripple-effect-dark"><i class="icon-material-outline-account-circle"></i> Bireysel</label>
+						</div>
+
+						<div>
+							<input type="radio" name="account-type-radio" id="employer-radio" class="account-type-radio" value="company"/>
+							<label for="employer-radio" class="ripple-effect-dark"><i class="icon-material-outline-business-center"></i> Şirket</label>
+						</div>
 					</div>
-
-					<p id="errorName" style="color: red"></p>
-
-					<div class="input-with-icon-left">
-						<i class="icon-material-outline-person-pin"></i>
-						<input type="text" class="input-text with-border" name="surname" id="surname" placeholder="Soy İsminiz"/>
-					</div>
-
-					<p id="errorLastName" style="color: red"></p>
 
 					<div class="input-with-icon-left">
 						<i class="icon-material-baseline-mail-outline"></i>
@@ -118,21 +115,10 @@
 						</style>
 						<p style="color: red">Javascript devre dışı giriş için aktif hale getirin</p>
 				</noscript>
-
-				<!-- Button -->
-				<!-- Social Login -->
-
-				<!-- <div class="social-login-separator"><span>or</span></div>
-				<div class="social-login-buttons">
-					<button class="facebook-login ripple-effect"><i class="icon-brand-facebook-f"></i> Register via Facebook</button>
-					<button class="google-login ripple-effect"><i class="icon-brand-google-plus-g"></i> Register via Google+</button>
-				</div> -->
 			</div>
-
 		</div>
 	</div>
 </div>
-
 
 <!-- Spacer -->
 <div class="margin-top-70"></div>

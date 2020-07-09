@@ -1,5 +1,6 @@
 from flask_login import UserMixin
 from jobby import db
+from jobby.JobModels import JobApply, Jobs
 from sqlalchemy import or_
 from datetime import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
@@ -12,11 +13,6 @@ UserSkills = db.Table('UserSkills',
 
 TasksSkills = db.Table('TasksSkills',
     db.Column("task_id",db.Integer, db.ForeignKey('Tasks.id'), primary_key=True),
-    db.Column("skill_id",db.Integer, db.ForeignKey('Skills.id'), primary_key=True)
-)
-
-JobSkills = db.Table('JobSkills',
-    db.Column("job_id",db.Integer, db.ForeignKey('Jobs.id'), primary_key=True),
     db.Column("skill_id",db.Integer, db.ForeignKey('Skills.id'), primary_key=True)
 )
 
@@ -38,8 +34,8 @@ BookmarksUsers = db.Table('BookmarksUsers',
 class Users(UserMixin, db.Model):
     __tablename__ = 'Users'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    surname = db.Column(db.String(50), nullable=False)
+    name = db.Column(db.String(50), nullable=False, default="")
+    surname = db.Column(db.String(50), nullable=False, default="")
     email = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(80))
     status = db.Column(db.String(15), default="employer")
@@ -68,7 +64,6 @@ class Users(UserMixin, db.Model):
     won = db.relationship('Tasks', foreign_keys='Tasks.winner_id', backref='winner', cascade='all, delete-orphan')
     work_experience = db.relationship('WorkExperiences', backref='Worker', cascade='all, delete-orphan')
     educations = db.relationship('Educations', backref='student', cascade='all, delete-orphan')
-    jobs = db.relationship('Jobs', backref='employer', cascade='all, delete-orphan')
     views = db.relationship('Views', backref='viewed', cascade='all, delete-orphan')
     reviews_pro = db.relationship('Reviews', foreign_keys='Reviews.professional', backref='reviewed_pro', cascade='all, delete-orphan')
     reviews_emp = db.relationship('Reviews', foreign_keys='Reviews.employer', backref='reviewed_emp', cascade='all, delete-orphan')
@@ -188,10 +183,13 @@ class Users(UserMixin, db.Model):
     def is_offered(self):
         return Offers.query.filter_by(offered=self).count() > 0
 
-    def __repr__(self):
+    def get_full_name(self):
         return self.name + " " + self.surname
 
-class Offers(UserMixin, db.Model):
+    def __repr__(self):
+        return self.name
+
+class Offers(db.Model):
     __tablename__ = 'Offers'
     id = db.Column(db.Integer, primary_key=True)
     subject = db.Column(db.String(100), nullable=True)
@@ -221,7 +219,7 @@ class Notification(db.Model):
     not_type = db.Column(db.Integer)
     seen = db.Column(db.Boolean, default=False)
 
-class Tasks(UserMixin, db.Model):
+class Tasks(db.Model):
     __tablename__ = 'Tasks'
     id = db.Column(db.Integer, primary_key=True)
     project_name = db.Column(db.String(50), nullable=False)
@@ -251,7 +249,7 @@ class Tasks(UserMixin, db.Model):
     def __repr__(self):
         return self.project_name
 
-class Reviews(UserMixin, db.Model):
+class Reviews(db.Model):
     __tablename__ = 'Reviews'
     id = db.Column(db.Integer, primary_key=True)
     recommendation = db.Column(db.Boolean, nullable=True)
@@ -262,32 +260,6 @@ class Reviews(UserMixin, db.Model):
     task_id = db.Column(db.Integer, db.ForeignKey('Tasks.id'))
     professional = db.Column(db.Integer, db.ForeignKey('Users.id'))
     employer = db.Column(db.Integer, db.ForeignKey('Users.id'))
-
-class Jobs(UserMixin, db.Model):
-    __tablename__ = 'Jobs'
-    id = db.Column(db.Integer, primary_key=True)
-    job_name = db.Column(db.String(50), nullable=False)
-    category = db.Column(db.String(50))
-    job_type = db.Column(db.String(50))
-    salary_min = db.Column(db.Integer, nullable=True)
-    salary_max = db.Column(db.Integer, nullable=True)
-    description = db.Column(db.Text, nullable=False)
-    num_apply = db.Column(db.Integer, default=0)
-    location = db.Column(db.String(25))
-    time_posted = db.Column(db.DateTime, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
-    appliance = db.relationship('JobApply', backref='applied', lazy='dynamic', cascade='all, delete-orphan')
-    JSkills = db.relationship('Skills', secondary=JobSkills, backref=db.backref('Jobs', lazy='dynamic'), lazy='dynamic')
-
-    def __repr__(self):
-        return self.job_name
-
-class JobApply(db.Model):
-    __tablename__ = 'JobApply'
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('Users.id'), nullable=False)
-    job_id = db.Column(db.Integer, db.ForeignKey('Jobs.id'), nullable=False)
-    message = db.Column(db.String(140))
 
 class Bids(db.Model):
     __tablename__ = 'Bids'
