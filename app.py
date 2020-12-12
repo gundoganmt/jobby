@@ -7,9 +7,9 @@ from jobby.models import (
     Users, Tasks, Bids, Skills,
     Messages, WorkExperiences,
     Educations, Views, Notification,
-    Reviews, Offers
+    Reviews, Offers, Jobs, FreelancerProfile,
+    CompanyProfile
     )
-from jobby.JobModels import Company, Jobs
 from jobby import db
 
 class MyModelView(sqla.ModelView):
@@ -53,11 +53,6 @@ class WorkExpView(MyModelView):
     column_searchable_list = column_editable_list
     column_filters = column_editable_list
 
-class CompanyView(MyModelView):
-    column_editable_list = ['company_name', 'sector']
-    column_searchable_list = column_editable_list
-    column_filters = column_editable_list
-
 class JobView(MyModelView):
     column_editable_list = ['job_name', 'category']
     column_searchable_list = column_editable_list
@@ -83,7 +78,9 @@ admin.add_view(MyModelView(Notification, db.session, menu_icon_type='glyph', men
 admin.add_view(MyModelView(Bids, db.session, menu_icon_type='glyph', menu_icon_value='glyphicon-pushpin', name="Bids"))
 admin.add_view(MyModelView(Reviews, db.session, menu_icon_type='fa', menu_icon_value='fa-bar-chart', name="Reviews"))
 admin.add_view(MyModelView(Messages, db.session, menu_icon_type='glyph', menu_icon_value='glyphicon-envelope', name="Messages"))
-admin.add_view(CompanyView(Company, db.session, menu_icon_type='fa', menu_icon_value='fa-industry', name="Company"))
+admin.add_view(MyModelView(FreelancerProfile, db.session, menu_icon_type='glyph', menu_icon_value='glyphicon-users', name="FreelancerProfile"))
+admin.add_view(MyModelView(CompanyProfile, db.session, menu_icon_type='glyph', menu_icon_value='glyphicon-briefcase', name="CompanyProfile"))
+# admin.add_view(CompanyView(Company, db.session, menu_icon_type='fa', menu_icon_value='fa-industry', name="Company"))
 admin.add_view(JobView(Jobs, db.session, menu_icon_type='glyph', menu_icon_value='glyphicon-briefcase', name="Jobs"))
 
 

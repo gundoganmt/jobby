@@ -43,7 +43,7 @@
 
 			<!-- Dashboard Headline -->
 			<div class="dashboard-headline">
-				<h3>{{ current_user }}</h3>
+				<h3>{{ current_user.get_full_name() }}</h3>
 				<span>Sizi yeniden gördugumuze sevindik!</span>
 
 				<!-- Breadcrumbs -->
@@ -229,7 +229,7 @@
 			<div class="dashboard-footer-spacer"></div>
 			<div class="small-footer margin-top-15">
 				<div class="small-footer-copyrights">
-					© 2018 <strong>Hireo</strong>. All Rights Reserved.
+					© 2020 <strong>Jobby</strong>. Butun hakları saklıdır.
 				</div>
 				<ul class="footer-social-links">
 					<li>

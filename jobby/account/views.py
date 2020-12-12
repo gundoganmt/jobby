@@ -1,7 +1,6 @@
 from flask import render_template, request, Blueprint, redirect, url_for, flash, abort
 from werkzeug.security import generate_password_hash, check_password_hash
 from jobby.models import Users, Notification
-from jobby.JobModels import Company
 from datetime import datetime
 from jobby import db, login_manager
 from flask_login import login_user, logout_user, login_required, current_user
@@ -54,34 +53,24 @@ def signup():
         password = request.form['password']
         confirm = request.form['confirm']
         hashed_password = generate_password_hash(password, method='sha256')
-        if account_type == 'freelancer':
-            existing_user = Users.query.filter_by(email=email).first()
-            if existing_user is None:
+        existing_user = Users.query.filter_by(email=email).first()
+        if existing_user is None:
+            if account_type == 'freelancer':
                 user = Users(email=email, password=hashed_password,
                     member_since=datetime.utcnow())
-                notif = Notification(notification_to=user, not_type=2)
-                db.session.add(user)
-                db.session.add(notif)
-                db.session.commit()
-                login_user(user)
-                #send_confirmation_email(user)
-                return render_template('email_confirmation_notification.html')
-            flash('Email adresi kullanılıyor')
-            return render_template('pages-register.html')
-        else:
-            existing_company = Company.query.filter_by(email=email).first()
-            if existing_company is None:
-                company = Company(email=email, password=hashed_password,
-                    member_since=datetime.utcnow())
-                #notif = Notification(notification_to=user, not_type=2)
-                db.session.add(company)
-                #db.session.add(notif)
-                db.session.commit()
-                login_user(company)
-                #send_confirmation_email(user)
-                return render_template('email_confirmation_notification.html')
-            flash('Email adresi kullanılıyor')
-            return redirect(request.url)
+            else:
+                user = Users(email=email, password=hashed_password,
+                    member_since=datetime.utcnow(), status='company')
+            notif = Notification(notification_to=user, not_type=2)
+            db.session.add(user)
+            db.session.add(notif)
+            db.session.commit()
+            login_user(user)
+            #send_confirmation_email(user)
+            return render_template('email_confirmation_notification.html')
+        flash('Email adresi kullanılıyor')
+        return render_template('pages-register.html')
+
     return render_template('pages-register.html')
 
 @account.route('/logout')

@@ -18,14 +18,17 @@
 						<li><a href="{{ url_for('public.browseTasks') }}">İlan Ara</a></li>
 						<li><a href="{{ url_for('public.browseFreelancers') }}">Profesyonel Bul</a></li>
 						<li><a href="{{ url_for('posttask.post_task') }}"><strong>Proje İlanı Ver</strong></a></li>
+						{% if current_user.status == 'company' %}
+							<li><a href="{{ url_for('postjob.post_job') }}"><strong>İş İlanı Ver</strong></a></li>
+						{% endif %}
 						{% if current_user.is_authenticated %}
-						<li><a href="{{ url_for('manage.dashboard') }}">Hesabım</a></li>
-						<li class="onlyMobile"><a href="{{ url_for('manage.reviews') }}">Değerlendirmeler</a></li>
-						<li class="onlyMobile"><a href="{{ url_for('account.logout') }}">Çıkış</a></li>
+							<li><a href="{{ url_for('manage.dashboard') }}">Hesabım</a></li>
+							<li class="onlyMobile"><a href="{{ url_for('manage.reviews') }}">Değerlendirmeler</a></li>
+							<li class="onlyMobile"><a href="{{ url_for('account.logout') }}">Çıkış</a></li>
 						{% endif %}
 						{% if current_user.is_anonymous %}
-						<li class="onlyMobile"><a href="{{ url_for('account.login') }}">Giriş Yap</a></li>
-						<li class="onlyMobile"><a href="{{ url_for('account.signup') }}">Kaydol</a></li>
+							<li class="onlyMobile"><a href="{{ url_for('account.login') }}">Giriş Yap</a></li>
+							<li class="onlyMobile"><a href="{{ url_for('account.signup') }}">Kaydol</a></li>
 						{% endif %}
 					</ul>
 				</nav>
@@ -194,12 +197,19 @@
 								<div class="user-details">
 									<div class="user-avatar status-online"><img src="{{ url_for('static', filename='images/'+current_user.profile_picture) }}" alt=""></div>
 									<div class="user-name">
-										{% if current_user.name %}
-											{{ current_user }}
+										{% if not current_user.status == 'company' %}
+											{% if current_user.name %}
+												{{ current_user.get_full_name() }}
+											{% else %}
+												{{ current_user.email }}
+											{% endif %}
 										{% else %}
 											{{ current_user.email }}
 										{% endif %}
-										{% if current_user.status == 'employer' %}
+
+										{% if current_user.status == 'company' %}
+											<span>Şirket</span>
+										{% elif current_user.status == 'employer' %}
 											<span>İşveren</span>
 										{% else %}
 											<span>Profesyonel</span>
