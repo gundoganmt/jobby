@@ -1,13 +1,16 @@
 import os
 from flask_mail import Message
 from threading import Thread
-from flask import url_for
+from flask import url_for, current_app
+from flask_mail import Mail
+mail = Mail()
 
-def send_async_email(msg):
+def send_async_email(app, msg):
     with app.app_context():
         mail.send(msg)
 
 def send_confirmation_email(user):
+    app = current_app._get_current_object()
     token = user.get_confirmation_token()
     msg = Message(subject='Email doğrulama linki',
         sender="destek@jobby.net",
@@ -16,7 +19,7 @@ def send_confirmation_email(user):
     {url_for('account.confirm_email', token=token, _external=True)}
     Eğer bu mail size yanlışlıkla geldiyse herhangi birşey yapmanıza gerek yoktur.
     """
-    thr = Thread(target=send_async_email, args=[msg])
+    thr = Thread(target=send_async_email, args=[app, msg])
     thr.start()
 
 def dir_last_updated(folder):

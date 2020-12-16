@@ -5,11 +5,9 @@ from flask_login import LoginManager
 from jobby.config import Config
 from flask_migrate import Migrate
 from flask_socketio import SocketIO
-from utils import dir_last_updated
-from flask_mail import Mail
+from utils import dir_last_updated, mail
 
 db = SQLAlchemy()
-mail = Mail()
 csrf = CSRFProtect()
 socketio = SocketIO()
 login_manager = LoginManager()

@@ -17,8 +17,8 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('public.index'))
     if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
+        email = request.form['login-email']
+        password = request.form['login-password']
         user = Users.query.filter_by(email=email).first()
         if user:
             if check_password_hash(user.password, password):
@@ -26,11 +26,11 @@ def login():
                 return redirect(url_for('public.index'))
             else:
                 flash('Email veya şifre yanlış')
-                return render_template('pages-login.html')
+                return render_template('account/login.html')
         else:
             flash('Email veya şifre yanlış')
-            return render_template('pages-login.html')
-    return render_template('pages-login.html')
+            return render_template('account/login.html')
+    return render_template('account/login.html')
 
 @account.route('/confirm_email/<token>')
 def confirm_email(token):
@@ -48,30 +48,23 @@ def signup():
     if current_user.is_authenticated:
         return redirect(url_for('public.index'))
     if request.method == 'POST':
-        email = request.form['email']
-        account_type = request.form['account-type-radio']
-        password = request.form['password']
-        confirm = request.form['confirm']
+        email = request.form['register-email']
+        password = request.form['register-password']
         hashed_password = generate_password_hash(password, method='sha256')
         existing_user = Users.query.filter_by(email=email).first()
         if existing_user is None:
-            if account_type == 'freelancer':
-                user = Users(email=email, password=hashed_password,
-                    member_since=datetime.utcnow())
-            else:
-                user = Users(email=email, password=hashed_password,
-                    member_since=datetime.utcnow(), status='company')
+            user = Users(email=email, password=hashed_password, member_since=datetime.utcnow())
             notif = Notification(notification_to=user, not_type=2)
             db.session.add(user)
             db.session.add(notif)
             db.session.commit()
             login_user(user)
             #send_confirmation_email(user)
-            return render_template('email_confirmation_notification.html')
+            return render_template('account/email_confirmation.html')
         flash('Email adresi kullanılıyor')
-        return render_template('pages-register.html')
+        return render_template('account/register.html')
 
-    return render_template('pages-register.html')
+    return render_template('account/register.html')
 
 @account.route('/logout')
 @login_required
