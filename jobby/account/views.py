@@ -41,7 +41,7 @@ def confirm_email(token):
     db.session.delete(notif)
     user.email_approved = True
     db.session.commit()
-    return render_template('email_confirmation_notification.html')
+    return render_template('account/welcome.html')
 
 @account.route('/signup', methods=['GET','POST'])
 def signup():

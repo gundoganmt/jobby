@@ -1,7 +1,7 @@
 import os
 from flask_mail import Message
 from threading import Thread
-from flask import url_for, current_app
+from flask import current_app, render_template
 from flask_mail import Mail
 mail = Mail()
 
@@ -15,10 +15,7 @@ def send_confirmation_email(user):
     msg = Message(subject='Email doğrulama linki',
         sender="destek@jobby.net",
         recipients=[user.email])
-    msg.body = f"""Mail adresinizi doğrulamak için lutfen aşağıdaki linke tıklayın.
-    {url_for('account.confirm_email', token=token, _external=True)}
-    Eğer bu mail size yanlışlıkla geldiyse herhangi birşey yapmanıza gerek yoktur.
-    """
+    msg.html = render_template('account/email_confirmation.html', token=token)
     thr = Thread(target=send_async_email, args=[app, msg])
     thr.start()
 

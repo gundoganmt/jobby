@@ -24,7 +24,8 @@ def index():
         featured_tasks = Tasks.query.all()[:3]
         if current_user.is_authenticated:
             return render_template('index-logged-out.html', users=users, featured_tasks=featured_tasks, last_updated=last_updated)
-        return render_template('index-logged-out.html', users=users, featured_tasks=featured_tasks, last_updated=last_updated)
+        #return render_template('index-logged-out.html', users=users, featured_tasks=featured_tasks, last_updated=last_updated)
+        return render_template('public/index.html')
 
 @public.route('/tasks/<int:task_id>', methods=['GET', 'POST'])
 def task_page(task_id):
