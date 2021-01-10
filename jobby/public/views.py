@@ -13,6 +13,11 @@ from utils import allowed_offer_file, get_extension, UPLOAD_OFFER_FOLDER
 
 public = Blueprint('public',__name__)
 
+@public.route('/404', methods=['GET', 'POST'])
+def notf():
+    return render_template('404.html')
+
+
 @public.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -23,7 +28,7 @@ def index():
         users = Users.query.filter_by(status='professional').all()[:5]
         featured_tasks = Tasks.query.all()[:3]
         if current_user.is_authenticated:
-            return render_template('index-logged-out.html', users=users, featured_tasks=featured_tasks, last_updated=last_updated)
+            return render_template('public/index.html')
         #return render_template('index-logged-out.html', users=users, featured_tasks=featured_tasks, last_updated=last_updated)
         return render_template('public/index.html')
 
@@ -66,7 +71,7 @@ def job_page(job_id):
     sk = job.JSkills.all()
     return render_template('Jobs/single-job-page.html', job=job, sk=sk)
 
-@public.route('/browse-tasks')
+@public.route('/jobs')
 def browseTasks():
     with open("category.json") as category:
         categories = json.load(category)
@@ -80,7 +85,7 @@ def browseTasks():
         tasks = Tasks.query.filter_by(category=category).paginate(page=page, per_page=3)
     else:
         tasks = Tasks.query.paginate(page=page, per_page=5)
-    return render_template('tasks-list.html', tasks=tasks, last_updated=last_updated,
+    return render_template('public/jobs-list.html', tasks=tasks, last_updated=last_updated,
         lc=location, ct=category, categories=categories)
 
 @public.route('/freelancer/<int:user_id>', methods=['GET', 'POST'])
@@ -123,7 +128,7 @@ def browseFreelancers():
         categories = json.load(category)
     page = request.args.get('page', 1, type=int)
     users = Users.query.filter_by(status='professional').paginate(page=page, per_page=3)
-    return render_template('freelancers-list.html', users=users, last_updated=last_updated, categories=categories)
+    return render_template('public/candidates-list.html', users=users, last_updated=last_updated, categories=categories)
 
 @public.app_errorhandler(404)
 def page_not_found(e):

@@ -123,5 +123,5 @@ def setting_page():
     skills = current_user.UserSkills.all()
     workExps = WorkExperiences.query.filter_by(Worker=current_user).all()
     edus = Educations.query.filter_by(student=current_user).all()
-    return render_template('settings.html', last_updated=last_updated, skills=skills,
+    return render_template('setting/settings.html', last_updated=last_updated, skills=skills,
         workExps=workExps, edus=edus, categories=categories, cities=cities)

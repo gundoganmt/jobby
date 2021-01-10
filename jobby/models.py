@@ -38,8 +38,6 @@ BookmarksUsers = db.Table('BookmarksUsers',
 class Users(UserMixin, db.Model):
     __tablename__ = 'Users'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=True, default="")
-    surname = db.Column(db.String(50), nullable=True, default="")
     status = db.Column(db.String(50), default="employer")
     email = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(80))
@@ -55,8 +53,8 @@ class Users(UserMixin, db.Model):
     BookmarksUser = db.relationship('Users', secondary=BookmarksUsers, backref=db.backref('marker', lazy='dynamic'),
         lazy='dynamic', primaryjoin=(BookmarksUsers.c.marker_id==id), secondaryjoin=(BookmarksUsers.c.marked_id==id))
     tasks = db.relationship('Tasks', foreign_keys='Tasks.user_id', backref='poster', cascade='all, delete-orphan')
-    freeProfile = db.relationship('FreelancerProfile', backref='freelancer', cascade='all, delete-orphan')
-    compProfile = db.relationship('CompanyProfile', backref='company', cascade='all, delete-orphan')
+    freeProfile = db.relationship('Freelancer', backref='freelancer', cascade='all, delete-orphan', uselist=False)
+    compProfile = db.relationship('Company', backref='company', cascade='all, delete-orphan', uselist=False)
     offered = db.relationship('Offers', foreign_keys='Offers.offered_user', backref='offered', cascade='all, delete-orphan')
     offers = db.relationship('Offers', foreign_keys='Offers.offers_user', backref='offers', cascade='all, delete-orphan')
     won = db.relationship('Tasks', foreign_keys='Tasks.winner_id', backref='winner', cascade='all, delete-orphan')
@@ -182,15 +180,14 @@ class Users(UserMixin, db.Model):
     def is_offered(self):
         return Offers.query.filter_by(offered=self).count() > 0
 
-    def get_full_name(self):
-        return self.name + " " + self.surname
-
     def __repr__(self):
-        return self.name
+        return self.email
 
-class FreelancerProfile(db.Model):
-    __tablename__ = 'FreelancerProfile'
+class Freelancer(db.Model):
+    __tablename__ = 'Freelancer'
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=True, default="")
+    surname = db.Column(db.String(50), nullable=True, default="")
     rating = db.Column(db.Float, default=0.0)
     num_of_rating = db.Column(db.Integer, default=0)
     total_rating = db.Column(db.Integer, default=0)
@@ -199,16 +196,22 @@ class FreelancerProfile(db.Model):
     field_of_work = db.Column(db.String(25), nullable=True)
     province = db.Column(db.String(25), nullable=True)
     tagline = db.Column(db.String(80), nullable=False, default="")
-    freelancer_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
+    freelancer_id = db.Column(db.Integer, db.ForeignKey('Users.id'), unique=True)
 
-class CompanyProfile(db.Model):
-    __tablename__ = 'CompanyProfile'
+    def __repr__(self):
+        return self.name
+
+class Company(db.Model):
+    __tablename__ = 'Company'
     id = db.Column(db.Integer, primary_key=True)
     company_name = db.Column(db.String(100), nullable=True, default="")
     worker_num = db.Column(db.Integer)
     founded = db.Column(db.Integer)
     website = db.Column(db.String(100))
-    company_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
+    company_id = db.Column(db.Integer, db.ForeignKey('Users.id'), unique=True)
+
+    def __repr__(self):
+        return self.company_name
 
 class Offers(db.Model):
     __tablename__ = 'Offers'

@@ -7,8 +7,8 @@ from jobby.models import (
     Users, Tasks, Bids, Skills,
     Messages, WorkExperiences,
     Educations, Views, Notification,
-    Reviews, Offers, Jobs, FreelancerProfile,
-    CompanyProfile
+    Reviews, Offers, Jobs, Freelancer,
+    Company
     )
 from jobby import db
 
@@ -31,7 +31,7 @@ class MyModelView(sqla.ModelView):
     details_modal = True
 
 class UserView(MyModelView):
-    column_editable_list = ['email', 'name', 'surname']
+    column_editable_list = ['email']
     column_searchable_list = column_editable_list
     column_exclude_list = ['password']
     # form_excluded_columns = column_exclude_list
@@ -78,8 +78,8 @@ admin.add_view(MyModelView(Notification, db.session, menu_icon_type='glyph', men
 admin.add_view(MyModelView(Bids, db.session, menu_icon_type='glyph', menu_icon_value='glyphicon-pushpin', name="Bids"))
 admin.add_view(MyModelView(Reviews, db.session, menu_icon_type='fa', menu_icon_value='fa-bar-chart', name="Reviews"))
 admin.add_view(MyModelView(Messages, db.session, menu_icon_type='glyph', menu_icon_value='glyphicon-envelope', name="Messages"))
-admin.add_view(MyModelView(FreelancerProfile, db.session, menu_icon_type='glyph', menu_icon_value='glyphicon-users', name="FreelancerProfile"))
-admin.add_view(MyModelView(CompanyProfile, db.session, menu_icon_type='glyph', menu_icon_value='glyphicon-briefcase', name="CompanyProfile"))
+admin.add_view(MyModelView(Freelancer, db.session, menu_icon_type='glyph', menu_icon_value='glyphicon-users', name="FreelancerProfile"))
+admin.add_view(MyModelView(Company, db.session, menu_icon_type='glyph', menu_icon_value='glyphicon-briefcase', name="CompanyProfile"))
 # admin.add_view(CompanyView(Company, db.session, menu_icon_type='fa', menu_icon_value='fa-industry', name="Company"))
 admin.add_view(JobView(Jobs, db.session, menu_icon_type='glyph', menu_icon_value='glyphicon-briefcase', name="Jobs"))
 
