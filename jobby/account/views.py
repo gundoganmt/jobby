@@ -41,7 +41,8 @@ def confirm_email(token):
     db.session.delete(notif)
     user.email_approved = True
     db.session.commit()
-    return render_template('account/welcome.html')
+    flash('Tebrikler Email Adresiniz Doğrulandı!')
+    return render_template('setting/settings.html')
 
 @account.route('/signup', methods=['GET','POST'])
 def signup():
@@ -50,17 +51,21 @@ def signup():
     if request.method == 'POST':
         email = request.form['register-email']
         password = request.form['register-password']
+        account_type = request.form['radio_options']
         hashed_password = generate_password_hash(password, method='sha256')
         existing_user = Users.query.filter_by(email=email).first()
         if existing_user is None:
-            user = Users(email=email, password=hashed_password, member_since=datetime.utcnow())
+            if account_type == 'freelancer':
+                user = Users(email=email, password=hashed_password, member_since=datetime.utcnow())
+            else:
+                user = Users(email=email, password=hashed_password, member_since=datetime.utcnow(), status='company')
             notif = Notification(notification_to=user, not_type=2)
             db.session.add(user)
             db.session.add(notif)
             db.session.commit()
             login_user(user)
             #send_confirmation_email(user)
-            return render_template('account/email_confirmation.html')
+            return render_template('account/welcome.html')
         flash('Email adresi kullanılıyor')
         return render_template('account/register.html')
 

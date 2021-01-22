@@ -116,9 +116,9 @@ def deleteItem():
 @setting.route('/setting')
 @login_required
 def setting_page():
-    with open("category.json") as category:
+    with open("category.json", encoding='utf-8') as category:
         categories = json.load(category)
-    with open("cities.json") as city:
+    with open("cities.json", encoding='utf-8') as city:
         cities = json.load(city)
     skills = current_user.UserSkills.all()
     workExps = WorkExperiences.query.filter_by(Worker=current_user).all()

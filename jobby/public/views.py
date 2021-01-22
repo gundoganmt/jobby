@@ -13,11 +13,6 @@ from utils import allowed_offer_file, get_extension, UPLOAD_OFFER_FOLDER
 
 public = Blueprint('public',__name__)
 
-@public.route('/404', methods=['GET', 'POST'])
-def notf():
-    return render_template('404.html')
-
-
 @public.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -29,8 +24,8 @@ def index():
         featured_tasks = Tasks.query.all()[:3]
         if current_user.is_authenticated:
             return render_template('public/index.html')
-        #return render_template('index-logged-out.html', users=users, featured_tasks=featured_tasks, last_updated=last_updated)
-        return render_template('public/index.html')
+        return render_template('public/index.html', users=users, featured_tasks=featured_tasks, last_updated=last_updated)
+        #return render_template('public/index.html')
 
 @public.route('/tasks/<int:task_id>', methods=['GET', 'POST'])
 def task_page(task_id):
@@ -85,7 +80,7 @@ def browseTasks():
         tasks = Tasks.query.filter_by(category=category).paginate(page=page, per_page=3)
     else:
         tasks = Tasks.query.paginate(page=page, per_page=5)
-    return render_template('public/jobs-list.html', tasks=tasks, last_updated=last_updated,
+    return render_template('public/tasks-list.html', tasks=tasks, last_updated=last_updated,
         lc=location, ct=category, categories=categories)
 
 @public.route('/freelancer/<int:user_id>', methods=['GET', 'POST'])
@@ -130,6 +125,14 @@ def browseFreelancers():
     users = Users.query.filter_by(status='professional').paginate(page=page, per_page=3)
     return render_template('public/candidates-list.html', users=users, last_updated=last_updated, categories=categories)
 
-@public.app_errorhandler(404)
-def page_not_found(e):
-    return render_template('pages-404.html'), 404
+# @public.app_errorhandler(404)
+# def page_not_found(e):
+#     return render_template('pages-404.html'), 404
+
+@public.route('/welcome')
+def welcome():
+    return render_template('account/welcome.html')
+
+@public.route('/confirm')
+def confirm():
+    return render_template('account/email_confirmation.html')
