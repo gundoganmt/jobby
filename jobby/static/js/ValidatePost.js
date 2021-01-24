@@ -1,6 +1,17 @@
 var form = document.getElementById('post_task');
 form.addEventListener('submit', validate);
 
+function createErrField(){
+  errmsg = document.createElement('div');
+  errmsg.setAttribute('class', "notification error closeable");
+  pInner = document.createElement('p');
+  aInner = document.createElement('a');
+  aInner.setAttribute('class', 'close');
+  aInner.setAttribute('href', '#');
+  errmsg.appendChild(pInner);
+  errmsg.appendChild(aInner);
+}
+
 function validate(e){
 
   var project_name = form.project_name.value;

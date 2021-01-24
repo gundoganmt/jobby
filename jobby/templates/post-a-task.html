@@ -78,11 +78,10 @@
 
 								<div class="row">
 
-
 									<div class="col-xl-4">
 										<div class="submit-field">
 											<h5>Proje İsmi</h5>
-											<input type="text" name="project_name" class="with-border" placeholder="ör. blog sitesi istiyorum">
+											<input type="text" name="project_name" class="with-border" placeholder="ör. blog sitesi istiyorum" required>
 										</div>
 									</div>
 
@@ -331,14 +330,6 @@ $('#post_task').on('keyup keypress', function(e){
 		e.preventDefault();
 		return false;
 	}
-});
-
-</script>
-
-<script>
-
-$('#textareaid').keypress(function(e){
-	e.stopPropagation()
 });
 
 </script>

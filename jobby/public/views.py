@@ -131,7 +131,7 @@ def browseFreelancers():
 
 @public.route('/welcome')
 def welcome():
-    return render_template('account/welcome.html')
+    return render_template('account/welcomeCompany.html')
 
 @public.route('/confirm')
 def confirm():

@@ -10,6 +10,7 @@
 
 <!-- CSS
 ================================================== -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 <link rel="stylesheet" href="/static/css/style.css?u={{ last_updated }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/colors/blue.css') }}">
 
@@ -78,7 +79,7 @@
 								<div class="col-xl-4">
 									<div class="submit-field">
 										<h5>İlan Başlığı</h5>
-										<input type="text" name="job_name" class="with-border" placeholder="ör. İthalat İhracat Elemanı">
+										<input type="text" name="job_name" class="with-border" placeholder="ör. İthalat İhracat Elemanı" required>
 									</div>
 								</div>
 
@@ -97,7 +98,7 @@
 								<div class="col-xl-4">
 									<div class="submit-field">
 										<h5>Kategori</h5>
-										<select name="category" class="selectpicker with-border" data-size="7" title="Kategori Seçin" data-live-search="true">
+										<select name="category" class="selectpicker with-border" data-size="7" title="Kategori Seçin" data-live-search="true" required>
 											<option>Websiteleri, BT ve Yazılım</option>
 											<option>Yazı Yazma ve İçerik</option>
 											<option>Temizlik İşleri</option>
@@ -209,15 +210,15 @@
 									<div class="submit-field">
 										<h5>Maaş</h5>
 										<div class="row">
-											<div class="col-xl-6">
+											<div class="col">
 												<div class="input-with-icon">
-													<input class="with-border" type="number" name="salary_min" min="10" step="10" placeholder="En az" value="">
+													<input class="with-border" type="number" name="salary_min" min="0" step="1" max="1000000" placeholder="En az" value="">
 													<i class="currency">TL</i>
 												</div>
 											</div>
-											<div class="col-xl-6">
+											<div class="col">
 												<div class="input-with-icon">
-													<input class="with-border" type="number" name="salary_max" min="10" step="10" max="100000" placeholder="En çok" value="">
+													<input class="with-border" type="number" name="salary_max" min="0" step="1" max="1000000" placeholder="En çok" value="">
 													<i class="currency">TL</i>
 												</div>
 											</div>
@@ -227,23 +228,79 @@
 
 								<div class="col-xl-4">
 									<div class="submit-field">
-										<h5>İş ne tur yetenekler gerektiriyor? <i class="help-icon" data-tippy-placement="right" title="İş için gerekli yetenekler"></i></h5>
-											<select id="multibox" class="selectpicker default" multiple data-selected-text-format="count" data-max-options="3" data-size="7" title="Anahtar kelimeler" data-live-search="true">
-												<option value="1">Web tasarımcısı</option>
-												<option value="2">Seo uzmanı</option>
-												<option value="3">Python</option>
-												<option value="4">Temizlik</option>
-												<option value="5">Halı temizleme</option>
-											</select>
+										<h5>Eğitim Seviyesi</h5>
+										<select name="edu_level" class="selectpicker with-border" data-size="7" title="Seçiniz" required>
+											<option>İlköğretim</option>
+											<option>Lise-öğrenci</option>
+											<option>Lise-mezun</option>
+											<option>Meslek Yüksekokulu-öğrenci</option>
+											<option>Meslek Yüksekokulu-mezun</option>
+											<option>Üniversite-öğrenci</option>
+											<option>Üniversite-mezun</option>
+											<option>Yüksek Lisans-öğrenci</option>
+											<option>Yüksek Lisans-mezun</option>
+											<option>Doktora-öğrenci</option>
+											<option>Doktora-mezun</option>
+										</select>
 									</div>
-									<input type='hidden' id="skills" name="skillsHidden" value=""/>
+								</div>
+
+								<div class="col-xl-4">
+									<div class="submit-field">
+										<h5>Tecrübe</h5>
+										<div class="row">
+											<div class="col">
+												<div class="input-with-icon">
+													<input class="with-border" type="number" name="exp_min" min="0" step="1" max="20" placeholder="En az" value="">
+													<i class="currency">yıl</i>
+												</div>
+											</div>
+											<div class="col">
+												<div class="input-with-icon">
+													<input class="with-border" type="number" name="exp_max" min="0" step="1" max="20" placeholder="En çok" value="">
+													<i class="currency">yıl</i>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-xl-4">
+									<div class="submit-field">
+										<h5>Askerlik Durumu</h5>
+										<select name="military" class="selectpicker with-border" data-size="7" title="Seçiniz">
+											<option>Yapıldı</option>
+											<option>Tecilli</option>
+											<option>Önemli Değil</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="col-xl-4">
+									<div class="submit-field">
+										<h5>Pozisyon Seviyesi</h5>
+										<select name="position_level" class="selectpicker with-border" data-size="7" title="Seçiniz">
+											<option>Üst Düzey Yönetici</option>
+											<option>Orta Düzey Yönetici</option>
+											<option>Yönetici Adayı</option>
+											<option>Uzman</option>
+											<option>Uzman Yardımcısı</option>
+											<option>Yeni Başlayan</option>
+											<option>Stajyer</option>
+											<option>Eleman</option>
+											<option>Mavi Yaka</option>
+											<option>Serbest</option>
+										</select>
+									</div>
 								</div>
 
 								<div class="col-xl-12">
 									<div class="submit-field">
-										<h5>İş Detayı</h5>
-										<textarea cols="30" rows="5" name="description" class="with-border"></textarea>
+										<h5>İş Tanımı <i class="help-icon" data-tippy-placement="right" title="Projeniz hakkında en az 30 karakterlik açıklama yapın"></i></h5>
 									</div>
+									<div class="submit-field" id="toolbar"></div>
+									<div class="submit-field" id="editor"></div>
+									<input type='hidden' name="description" id="quillField" value=""/>
 								</div>
 
 							</div>
@@ -317,6 +374,7 @@
 <script src="{{ url_for('static', filename='js/magnific-popup.min.js')}}"></script>
 <script src="{{ url_for('static', filename='js/slick.min.js')}}"></script>
 <script src="{{ url_for('static', filename='js/custom.js')}}"></script>
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
 <!-- Snackbar // documentation: https://www.polonel.com/snackbar/ -->
 <script>
@@ -343,6 +401,33 @@ $('#snackbar-user-status label').click(function() {
 		})
 	})
 </script>
+
+<script>
+
+	var toolbarOptions = [
+		['bold', 'italic', 'underline', 'link'],
+		[{'list': 'ordered'}, {'list': 'bullet'}]
+	];
+
+  var quill = new Quill('#editor', {
+    theme: 'snow',
+		modules: {
+			toolbar: toolbarOptions
+		}
+  });
+</script>
+
+<script>
+	form = document.getElementById('post_job');
+	var quill = document.querySelector('#quillField');
+	var editor = document.querySelector('#editor');
+	document.addEventListener('DOMContentLoaded', () =>{
+		form.addEventListener('submit', () =>{
+			quill.value = editor.children[0].innerHTML;
+		})
+	})
+</script>
+
 
 </body>
 </html>

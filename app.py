@@ -78,8 +78,8 @@ admin.add_view(MyModelView(Notification, db.session, menu_icon_type='glyph', men
 admin.add_view(MyModelView(Bids, db.session, menu_icon_type='glyph', menu_icon_value='glyphicon-pushpin', name="Bids"))
 admin.add_view(MyModelView(Reviews, db.session, menu_icon_type='fa', menu_icon_value='fa-bar-chart', name="Reviews"))
 admin.add_view(MyModelView(Messages, db.session, menu_icon_type='glyph', menu_icon_value='glyphicon-envelope', name="Messages"))
-admin.add_view(MyModelView(Freelancer, db.session, menu_icon_type='glyph', menu_icon_value='glyphicon-users', name="FreelancerProfile"))
-admin.add_view(MyModelView(Company, db.session, menu_icon_type='glyph', menu_icon_value='glyphicon-briefcase', name="CompanyProfile"))
+admin.add_view(MyModelView(Freelancer, db.session, menu_icon_type='glyph', menu_icon_value='glyphicon-users', name="Freelancer"))
+admin.add_view(MyModelView(Company, db.session, menu_icon_type='glyph', menu_icon_value='glyphicon-briefcase', name="Company"))
 # admin.add_view(CompanyView(Company, db.session, menu_icon_type='fa', menu_icon_value='fa-industry', name="Company"))
 admin.add_view(JobView(Jobs, db.session, menu_icon_type='glyph', menu_icon_value='glyphicon-briefcase', name="Jobs"))
 
