@@ -73,13 +73,13 @@
 								<a class="close" href="#"></a>
 							</div>
 						{% endfor %}
-						<div class="content with-padding padding-bottom-10">
+						<div class="content with-padding padding-bottom-10" id="content">
 							<div class="row">
 								<input type='hidden' name="csrf_token" value="{{ csrf_token() }}"/>
 								<div class="col-xl-4">
 									<div class="submit-field">
 										<h5>İlan Başlığı</h5>
-										<input type="text" name="job_name" class="with-border" placeholder="ör. İthalat İhracat Elemanı" required>
+										<input type="text" name="job_name" class="with-border" placeholder="ör. İthalat İhracat Elemanı">
 									</div>
 								</div>
 
@@ -98,7 +98,7 @@
 								<div class="col-xl-4">
 									<div class="submit-field">
 										<h5>Kategori</h5>
-										<select name="category" class="selectpicker with-border" data-size="7" title="Kategori Seçin" data-live-search="true" required>
+										<select name="category" class="selectpicker with-border" data-size="7" title="Kategori Seçin" data-live-search="true">
 											<option>Websiteleri, BT ve Yazılım</option>
 											<option>Yazı Yazma ve İçerik</option>
 											<option>Temizlik İşleri</option>
@@ -229,7 +229,7 @@
 								<div class="col-xl-4">
 									<div class="submit-field">
 										<h5>Eğitim Seviyesi</h5>
-										<select name="edu_level" class="selectpicker with-border" data-size="7" title="Seçiniz" required>
+										<select name="edu_level" class="selectpicker with-border" data-size="7" title="Seçiniz">
 											<option>İlköğretim</option>
 											<option>Lise-öğrenci</option>
 											<option>Lise-mezun</option>
@@ -374,6 +374,7 @@
 <script src="{{ url_for('static', filename='js/magnific-popup.min.js')}}"></script>
 <script src="{{ url_for('static', filename='js/slick.min.js')}}"></script>
 <script src="{{ url_for('static', filename='js/custom.js')}}"></script>
+<script src="{{ url_for('static', filename='js/ValidateJobPost.js')}}"></script>
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
 <!-- Snackbar // documentation: https://www.polonel.com/snackbar/ -->
@@ -390,16 +391,6 @@ $('#snackbar-user-status label').click(function() {
 		backgroundColor: '#383838'
 	});
 });
-</script>
-
-<script>
-	form = document.getElementById('post_job');
-	skills = document.getElementById('skills');
-	document.addEventListener('DOMContentLoaded', () =>{
-		form.addEventListener('submit', () =>{
-			skills.value = $('#multibox option:selected').text();
-		})
-	})
 </script>
 
 <script>
@@ -427,7 +418,6 @@ $('#snackbar-user-status label').click(function() {
 		})
 	})
 </script>
-
 
 </body>
 </html>

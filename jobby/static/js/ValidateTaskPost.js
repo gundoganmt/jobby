@@ -1,36 +1,30 @@
-var form = document.getElementById('post_task');
+var form = document.getElementById('post_job');
 form.addEventListener('submit', validate);
 
-function createErrField(){
+function createErrField(error){
   errmsg = document.createElement('div');
   errmsg.setAttribute('class', "notification error closeable");
   pInner = document.createElement('p');
+  pInner.innerText = error;
   aInner = document.createElement('a');
   aInner.setAttribute('class', 'close');
   aInner.setAttribute('href', '#');
-  errmsg.appendChild(pInner);
   errmsg.appendChild(aInner);
+  errmsg.appendChild(pInner);
 }
 
 function validate(e){
 
-  var project_name = form.project_name.value;
+  var job_name = form.job_name.value;
   var category = form.category.value;
-  var budget_min = parseInt(form.budget_min.value);
-  var budget_max = parseInt(form.budget_max.value);
+  var salary_min = parseInt(form.salary_min.value);
+  var salary_max = parseInt(form.salary_max.value);
 	var description = form.description.value;
   var skills = form.skillsHidden;
   skillsText = document.getElementsByClassName('keyword-text');
 
-  var errProjectName = document.getElementById('errorProjectName');
-  var errCategory = document.getElementById('errorCategory');
-  var errorBudget_min = document.getElementById('errorBudget_min');
-  var errorBudget_max = document.getElementById('errorBudget_max');
-  var errSkills = document.getElementById('errorSkills');
-  var errorDescription = document.getElementById('errorDescription');
-
   if (project_name.length < 3){
-    errProjectName.innerText = "* Proje ismi çok kısa";
+    alert("some things are wrong!");
     e.preventDefault();
   }
 
