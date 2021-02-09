@@ -29,7 +29,10 @@ document.addEventListener('DOMContentLoaded', () =>{
     var salary_max = parseInt(form.salary_max.value);
     var exp_min = parseInt(form.exp_min.value);
     var exp_max = parseInt(form.exp_max.value);
-    var description = form.description.value;
+    var quill = document.querySelector('#quillField');
+    var editor = document.querySelector('#editor');
+    quill.value = editor.children[0].innerHTML;
+
 
     if (job_name.length < 5){
       createErrField("İlan başlığı çok kısa!");
@@ -55,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () =>{
       createErrField("En az tecrübe, en çok tecrübeden fazla olamaz!");
       e.preventDefault();
     }
-    if (description.length < 30){
+    if (quill.length < 30){
       createErrField("Lütfen iş ilanınızı biraz açıklayın. En az 30 karakter.");
       e.preventDefault();
     }

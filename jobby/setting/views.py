@@ -120,8 +120,11 @@ def setting_page():
         categories = json.load(category)
     with open("cities.json", encoding='utf-8') as city:
         cities = json.load(city)
-    skills = current_user.UserSkills.all()
-    workExps = WorkExperiences.query.filter_by(Worker=current_user).all()
-    edus = Educations.query.filter_by(student=current_user).all()
-    return render_template('setting/companySetting.html', last_updated=last_updated, skills=skills,
-        workExps=workExps, edus=edus, categories=categories, cities=cities)
+    if current_user.status == 'company':
+        return render_template('setting/companySetting.html', last_updated=last_updated, categories=categories, cities=cities)
+    else:
+        skills = current_user.UserSkills.all()
+        workExps = WorkExperiences.query.filter_by(Worker=current_user).all()
+        edus = Educations.query.filter_by(student=current_user).all()
+        return render_template('setting/settings.html', last_updated=last_updated, skills=skills,
+            workExps=workExps, edus=edus, categories=categories, cities=cities)

@@ -136,3 +136,9 @@ def welcome():
 @public.route('/confirm')
 def confirm():
     return render_template('account/email_confirmation.html')
+
+@public.route('/confirm/<task_url>')
+def task_new_url(task_url):
+    task_id = task_url.split('-')[-1]
+
+    return redirect(url_for('public.task_page', task_id=task_id))

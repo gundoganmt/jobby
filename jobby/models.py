@@ -3,7 +3,7 @@ from jobby import db
 from sqlalchemy import or_
 from datetime import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-import math
+import math, unidecode
 
 JobSkills = db.Table('JobSkills',
     db.Column("job_id",db.Integer, db.ForeignKey('Jobs.id'), primary_key=True),
@@ -58,10 +58,7 @@ class Users(UserMixin, db.Model):
     offered = db.relationship('Offers', foreign_keys='Offers.offered_user', backref='offered', cascade='all, delete-orphan')
     offers = db.relationship('Offers', foreign_keys='Offers.offers_user', backref='offers', cascade='all, delete-orphan')
     won = db.relationship('Tasks', foreign_keys='Tasks.winner_id', backref='winner', cascade='all, delete-orphan')
-    work_experience = db.relationship('WorkExperiences', backref='Worker', cascade='all, delete-orphan')
-    educations = db.relationship('Educations', backref='student', cascade='all, delete-orphan')
     views = db.relationship('Views', backref='viewed', cascade='all, delete-orphan')
-    jobs = db.relationship('Jobs', backref='JobPoster', cascade='all, delete-orphan')
     reviews_pro = db.relationship('Reviews', foreign_keys='Reviews.professional', backref='reviewed_pro', cascade='all, delete-orphan')
     reviews_emp = db.relationship('Reviews', foreign_keys='Reviews.employer', backref='reviewed_emp', cascade='all, delete-orphan')
     bids = db.relationship('Bids', backref='bidder', lazy='dynamic', cascade='all, delete-orphan')
@@ -197,6 +194,9 @@ class Freelancer(db.Model):
     province = db.Column(db.String(25), nullable=True)
     tagline = db.Column(db.String(80), nullable=False, default="")
     freelancer_id = db.Column(db.Integer, db.ForeignKey('Users.id'), unique=True)
+    work_experience = db.relationship('WorkExperiences', backref='Worker', cascade='all, delete-orphan')
+    educations = db.relationship('Educations', backref='student', cascade='all, delete-orphan')
+
 
     def __repr__(self):
         return self.name
@@ -209,6 +209,8 @@ class Company(db.Model):
     founded = db.Column(db.Integer)
     website = db.Column(db.String(100))
     company_id = db.Column(db.Integer, db.ForeignKey('Users.id'), unique=True)
+    jobs = db.relationship('Jobs', backref='JobPoster', cascade='all, delete-orphan')
+
 
     def __repr__(self):
         return self.company_name
@@ -289,10 +291,22 @@ class Jobs(db.Model):
     description = db.Column(db.Text, nullable=False)
     num_apply = db.Column(db.Integer, default=0)
     location = db.Column(db.String(25))
+    job_url = db.Column(db.String(150))
     time_posted = db.Column(db.DateTime, default=datetime.utcnow)
-    company_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
+    company_id = db.Column(db.Integer, db.ForeignKey('Company.id'))
     appliance = db.relationship('JobApply', backref='applied', lazy='dynamic', cascade='all, delete-orphan')
     JSkills = db.relationship('Skills', secondary=JobSkills, backref=db.backref('Jobs', lazy='dynamic'), lazy='dynamic')
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.job_url = self.generate_job_link()
+
+    def generate_job_link(self):
+        link = unidecode.unidecode(str(self.JobPoster) + " " + str(self.job_name) + " " + str(self.id))
+        link = link.replace(' ', '-')
+
+        return link
+
 
     def __repr__(self):
         return self.job_name
@@ -347,7 +361,7 @@ class WorkExperiences(db.Model):
     end_month = db.Column(db.String(20), nullable=False)
     end_year = db.Column(db.Integer, nullable=False)
     description = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('Freelancer.id'))
 
     def __repr__(self):
         return self.position
@@ -362,7 +376,7 @@ class Educations(db.Model):
     end_month = db.Column(db.String(20), nullable=False)
     end_year = db.Column(db.Integer, nullable=False)
     description = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('Freelancer.id'))
 
     def __repr__(self):
         return self.field
