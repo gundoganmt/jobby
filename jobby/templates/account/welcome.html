@@ -94,39 +94,42 @@
                         <p class="sm-leading-32" style="font-weight: 600; font-size: 20px; margin: 0 0 24px; --text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity));">
                           Hoşgeldiniz Sizi Aramızda Gördüğümüze Sevindik
                         </p>
+                        <p>
+                          <b>Doğrulama emaili</b> adresinize gönderildi. Gelen kutunuzu kontrol ediniz. Bulamadıysanız spam kutusuna bakmayı deneyin.
+                        </p>
                         <p style="margin: 24px 0;">
                           <span style="font-weight: 600;">Jobby</span>
-                          İş ilanı vermenin, proje ilanı vermenin, CV oluşturmanın, projelere teklif vermenin, işveren ve çalışan arasında
+                          İş ilanı vermenin, proje ilanı vermenin, CV oluşturmanın, projelere teklif vermenin, işveren ve çalışan arasında site içi
                           canlı mesajlaşmanın ve daha birçok şeyin mümkün olduğu bir platformdur.
                         </p>
                         <p style="font-weight: 500; font-size: 16px; margin-bottom: 0;">Jobby ile neler yapabilirsiniz?</p>
-                        <ul style="margin-bottom: 24px;">
-                          <li>
-                            Freelance çalıştırmak üzere proje ilanı verebilir, alanında uzman binlerce profesyonelden anlık teklif alabilirsiniz.
-                            Onlarla canlı mesajlaşır, size en uygun olanını seçersiniz.
-                          </li>
-                          <li>
-                            Şirket olarak projelere teklif verebilirsiniz. Başka sitelerin aksine teklif verebilmek için ücret ödemezsiniz.
-                          </li>
-                          <li>
-                            Şirket olduğunuz için tam zamanlı iş ilanı verebilirsiniz.
-                          </li>
-                          <li>
-                            Şirket profiliniz olur kullanıcılar size direkt teklif gönderebilirler.
-                          </li>
-                          <li>
-                            Ve daha birçok şeyi yapabildiğiniz bir platformdur <strong>Jobby.</strong>
-                          </li>
-                        </ul>
-
-                        <div class="tab-pane fade active show" id="account-vertical-notifications" role="tabpanel" aria-labelledby="account-pill-notifications" aria-expanded="false">
+                          {% if current_user.status=='company' %}
+                            <ul style="margin-bottom: 24px;">
+                              <li>
+                                Freelance çalıştırmak üzere proje ilanı verebilir, alanında uzman binlerce profesyonelden anlık teklif alabilirsiniz.
+                                Onlarla mesajlaşır, size en uygun olanını seçersiniz.
+                              </li>
+                              <li>
+                                Şirket olarak projelere teklif verebilirsiniz. Başka sitelerin aksine teklif verebilmek için ücret ödemezsiniz.
+                              </li>
+                              <li>
+                                Şirket olduğunuz için tam zamanlı iş ilanı verebilirsiniz.
+                              </li>
+                              <li>
+                                Şirket profiliniz olur ve kullanıcılar size direkt teklif gönderebilirler.
+                              </li>
+                              <li>
+                                Ve daha birçok şeyi yapabildiğiniz bir platformdur <strong>Jobby.</strong>
+                              </li>
+                           </ul>
+                          <div class="tab-pane fade active show" id="account-vertical-notifications" role="tabpanel" aria-labelledby="account-pill-notifications" aria-expanded="false">
                           <div class="row">
                             <h6 class="section-label mx-1 mb-2">Kullanım amacınızı anlayalım</h6>
                             <div class="col-12 mb-2">
                               <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" checked="" id="accountSwitch1">
                                 <label class="custom-control-label" for="accountSwitch1">
-                                  Projelere teklif verip freelance çalışabilirim.
+                                  Şirket olarak projelere teklif verip freelance çalışabiliriz.
                                 </label>
                               </div>
                             </div>
@@ -134,13 +137,12 @@
                               <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" checked="" id="accountSwitch2">
                                 <label class="custom-control-label" for="accountSwitch2">
-                                  Proje ilanı verebilirim, bazı işleri freelance yaptırabilirim.
+                                  Proje ilanı verebiliriz, bazı işleri freelance yaptırabiliriz.
                                 </label>
                               </div>
                             </div>
                           </div>
                         </div>
-
                         <table style="font-family: 'Montserrat',Arial,sans-serif;" cellpadding="0" cellspacing="0" role="presentation">
                           <tr>
                             <td style="mso-padding-alt: 16px 24px; --bg-opacity: 1; background-color: #7367f0; background-color: rgba(115, 103, 240, var(--bg-opacity)); border-radius: 4px; font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif;" bgcolor="rgba(115, 103, 240, var(--bg-opacity))">
@@ -148,13 +150,30 @@
                             </td>
                           </tr>
                         </table>
-                        <table style="font-family: 'Montserrat',Arial,sans-serif; width: 100%;" width="100%" cellpadding="0" cellspacing="0" role="presentation">
-                          <tr>
-                            <td style="font-family: 'Montserrat',Arial,sans-serif; padding-top: 32px; padding-bottom: 32px;">
-                              <div style="--bg-opacity: 1; background-color: #eceff1; background-color: rgba(236, 239, 241, var(--bg-opacity)); height: 1px; line-height: 1px;">&zwnj;</div>
-                            </td>
-                          </tr>
-                        </table>
+                        {% else %}
+                          <ul style="margin-bottom: 24px;">
+                            <li>
+                              Freelance çalıştırmak üzere proje ilanı verebilir, alanında uzman binlerce profesyonelden anlık teklif alabilirsiniz.
+                              Onlarla canlı mesajlaşır, size en uygun olanını seçersiniz.
+                            </li>
+                            <li>
+                              Profesyonel olarak çalışabilirsiniz. Başka sitelerin aksine teklif verebilmek için ücret ödemezsiniz.
+                            </li>
+                            <li>
+                              Tam zamanlı iş ilanlarına başvurabilirsiniz.
+                            </li>
+                            <li>
+                              Ve daha birçok şeyi yapabildiğiniz bir platformdur <strong>Jobby</strong>.
+                            </li>
+                          </ul>
+                          <table style="font-family: 'Montserrat',Arial,sans-serif;" cellpadding="0" cellspacing="0" role="presentation">
+                            <tr>
+                              <td style="mso-padding-alt: 16px 24px; --bg-opacity: 1; background-color: #7367f0; background-color: rgba(115, 103, 240, var(--bg-opacity)); border-radius: 4px; font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif;" bgcolor="rgba(115, 103, 240, var(--bg-opacity))">
+                                <a href="{{ url_for('public.index') }}" style="display: block; font-weight: 600; font-size: 14px; line-height: 100%; padding: 16px 24px; --text-opacity: 1; color: #ffffff; color: rgba(255, 255, 255, var(--text-opacity)); text-decoration: none;">Anasayfaya Git &rarr;</a>
+                              </td>
+                            </tr>
+                          </table>
+                        {% endif %}
                       </td>
                     </tr>
                   </table>

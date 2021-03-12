@@ -257,11 +257,18 @@ class Tasks(db.Model):
     location = db.Column(db.String(100), nullable=True)
     notification = db.relationship('Notification', backref='notedTask', cascade='all, delete-orphan')
     time_posted = db.Column(db.DateTime, default=datetime.utcnow)
+    task_url = db.Column(db.String(150))
     user_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
     winner_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
     review = db.relationship('Reviews', backref='reviewed', cascade='all, delete-orphan')
     bids = db.relationship('Bids', backref='bidded', lazy='dynamic', cascade='all, delete-orphan')
     TSkills = db.relationship('Skills', secondary=TasksSkills, backref=db.backref('Tasks', lazy='dynamic'), lazy='dynamic')
+
+    def generate_task_link(self):
+        link = unidecode.unidecode(str(self.project_name) + " " + str(self.id))
+        link = link.replace(' ', '-')
+
+        return link
 
     def getAvarageBid(self):
         if self.num_bids == 0:
@@ -296,10 +303,6 @@ class Jobs(db.Model):
     company_id = db.Column(db.Integer, db.ForeignKey('Company.id'))
     appliance = db.relationship('JobApply', backref='applied', lazy='dynamic', cascade='all, delete-orphan')
     JSkills = db.relationship('Skills', secondary=JobSkills, backref=db.backref('Jobs', lazy='dynamic'), lazy='dynamic')
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.job_url = self.generate_job_link()
 
     def generate_job_link(self):
         link = unidecode.unidecode(str(self.JobPoster) + " " + str(self.job_name) + " " + str(self.id))

@@ -12,7 +12,7 @@ account = Blueprint('account',__name__)
 def load_user(id):
     return Users.query.get(int(id))
 
-@account.route('/login', methods=['GET', 'POST'])
+@account.route('/giris', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('public.index'))
@@ -44,7 +44,7 @@ def confirm_email(token):
     flash('Tebrikler Email Adresiniz Doğrulandı!')
     return render_template('setting/settings.html')
 
-@account.route('/signup', methods=['GET','POST'])
+@account.route('/kaydol', methods=['GET','POST'])
 def signup():
     if current_user.is_authenticated:
         return redirect(url_for('public.index'))
@@ -55,10 +55,7 @@ def signup():
         hashed_password = generate_password_hash(password, method='sha256')
         existing_user = Users.query.filter_by(email=email).first()
         if existing_user is None:
-            if account_type == 'freelancer':
-                user = Users(email=email, password=hashed_password, member_since=datetime.utcnow())
-            else:
-                user = Users(email=email, password=hashed_password, member_since=datetime.utcnow(), status='company')
+            user = Users(email=email, password=hashed_password, member_since=datetime.utcnow(), status=account_type)
             notif = Notification(notification_to=user, not_type=2)
             db.session.add(user)
             db.session.add(notif)

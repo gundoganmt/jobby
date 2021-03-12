@@ -124,7 +124,7 @@
 				{% if tasks.items %}
 					{% for task in tasks.items %}
 					<!-- Task -->
-					<a href="{{ url_for('public.task_page', task_id=task.id) }}" class="task-listing">
+					<a href="{{ url_for('public.task_page', task_url=task.generate_task_link()) }}" class="task-listing">
 
 						<!-- Job Listing Details -->
 						<div class="task-listing-details">

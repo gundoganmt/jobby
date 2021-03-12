@@ -15,22 +15,31 @@
 				<!-- Main Navigation -->
 				<nav id="navigation">
 					<ul id="responsive">
-						<li><a href="{{ url_for('public.browseTasks') }}">İlan Ara</a></li>
-						<li><a href="{{ url_for('public.browseFreelancers') }}">Profesyonel Bul</a></li>
-						<li><a href="{{ url_for('posttask.post_task') }}"><strong>Proje İlanı Ver</strong></a></li>
-						{% if current_user.status == 'company' %}
-							<li><a href="{{ url_for('postjob.post_job') }}"><strong>İş İlanı Ver</strong></a></li>
-						{% endif %}
+						<li><a href="#"><b>İlan Ara</b></a>
+							<ul class="dropdown-nav">
+								<li><a href="{{ url_for('public.browseTasks') }}"><b>Proje İlanları</b></a></li>
+								<li><a href="index-2.html"><b>İş İlanları</b></a></li>
+							</ul>
+						</li>
+
+						<li><a href="#"><b>İlan Ver</b></a>
+							<ul class="dropdown-nav">
+								<li><a href="{{ url_for('posttask.post_task') }}"><b>Proje İlanı Ver</b></a></li>
+								<li><a href="{{ url_for('postjob.post_job') }}"><b>İş İlanı Ver</b></a></li>
+							</ul>
+						</li>
+
+						<li><a href="{{ url_for('public.browseFreelancers') }}"><b>Freelancer Bul</b></a></li>
 						{% if current_user.status == 'freelancer' %}
 							<li><a href="{{ url_for('manage.dashboard') }}">Hesabım</a></li>
 						{% endif %}
 						{% if current_user.is_authenticated %}
-							<li class="onlyMobile"><a href="{{ url_for('manage.reviews') }}">Değerlendirmeler</a></li>
-							<li class="onlyMobile"><a href="{{ url_for('account.logout') }}">Çıkış</a></li>
+							<li class="onlyMobile"><a href="{{ url_for('manage.reviews') }}"><b>Değerlendirmeler</b></a></li>
+							<li class="onlyMobile"><a href="{{ url_for('account.logout') }}"><b>Çıkış</b></a></li>
 						{% endif %}
 						{% if current_user.is_anonymous %}
-							<li class="onlyMobile"><a href="{{ url_for('account.login') }}">Giriş Yap</a></li>
-							<li class="onlyMobile"><a href="{{ url_for('account.signup') }}">Kaydol</a></li>
+							<li class="onlyMobile"><a href="{{ url_for('account.login') }}"><b>Giriş Yap</b></a></li>
+							<li class="onlyMobile"><a href="{{ url_for('account.signup') }}"><b>Kaydol</b></a></li>
 						{% endif %}
 					</ul>
 				</nav>

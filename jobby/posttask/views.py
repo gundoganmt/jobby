@@ -44,7 +44,9 @@ def post_task():
         for skill in re.findall('[A-Z][^A-Z]*', skills):
             sk = Skills.query.filter_by(skill=skill).first()
             task.TSkills.append(sk)
+        print(task.id)
         db.session.add(task)
+        print(task.id)
         db.session.commit()
         return redirect(url_for('public.task_page', task_id=task.id))
     else:

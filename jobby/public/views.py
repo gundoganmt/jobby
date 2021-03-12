@@ -27,8 +27,9 @@ def index():
         return render_template('public/index.html', users=users, featured_tasks=featured_tasks, last_updated=last_updated)
         #return render_template('public/index.html')
 
-@public.route('/tasks/<int:task_id>', methods=['GET', 'POST'])
-def task_page(task_id):
+@public.route('/proje/<task_url>', methods=['GET', 'POST'])
+def task_page(task_url):
+    task_id = task_url.split('-')[-1]
     task = Tasks.query.filter_by(id=task_id).first_or_404()
     taskbids = Bids.query.filter_by(task_id=task_id).all()
     if request.method == 'GET':
@@ -125,20 +126,14 @@ def browseFreelancers():
     users = Users.query.filter_by(status='professional').paginate(page=page, per_page=3)
     return render_template('public/candidates-list.html', users=users, last_updated=last_updated, categories=categories)
 
-# @public.app_errorhandler(404)
-# def page_not_found(e):
-#     return render_template('pages-404.html'), 404
+@public.app_errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 @public.route('/welcome')
 def welcome():
-    return render_template('account/welcomeCompany.html')
+    return render_template('account/welcome.html')
 
 @public.route('/confirm')
 def confirm():
     return render_template('account/email_confirmation.html')
-
-@public.route('/confirm/<task_url>')
-def task_new_url(task_url):
-    task_id = task_url.split('-')[-1]
-
-    return redirect(url_for('public.task_page', task_id=task_id))
