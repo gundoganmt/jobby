@@ -83,7 +83,7 @@
 
 											<!-- Details -->
 											<div class="job-listing-description">
-												<h3 class="job-listing-title"><a href="{{ url_for('public.task_page', task_id=task.id) }}">{{ task }}</a></h3>
+												<h3 class="job-listing-title"><a href="{{ url_for('public.task_page', task_url=task.generate_task_link()) }}">{{ task }}</a></h3>
 
 												<!-- Job Listing Footer -->
 												<div class="job-listing-footer">

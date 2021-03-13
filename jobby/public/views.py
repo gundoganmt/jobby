@@ -27,6 +27,12 @@ def index():
         return render_template('public/index.html', users=users, featured_tasks=featured_tasks, last_updated=last_updated)
         #return render_template('public/index.html')
 
+@public.route('/is-ilanlari/<job_url>', methods=['GET', 'POST'])
+def job_page(job_url):
+    job_id = job_url.split('-')[-1]
+    job = Jobs.query.filter_by(id=job_id).first_or_404()
+    return render_template("jobs/single-job-page.html", job=job)
+
 @public.route('/proje/<task_url>', methods=['GET', 'POST'])
 def task_page(task_url):
     task_id = task_url.split('-')[-1]
@@ -34,7 +40,7 @@ def task_page(task_url):
     taskbids = Bids.query.filter_by(task_id=task_id).all()
     if request.method == 'GET':
         sk = task.TSkills.all()
-        return render_template('single-task-page.html',task=task, sk=sk, taskbids=taskbids, last_updated=last_updated)
+        return render_template('tasks/single-task-page.html',task=task, sk=sk, taskbids=taskbids, last_updated=last_updated)
     else:
         if current_user.is_authenticated:
             if current_user.status == 'employer':
@@ -61,13 +67,7 @@ def task_page(task_url):
             flash('Teklif verebilmek için giriş yapmalısınız!')
             return redirect(url_for('account.login'))
 
-@public.route('/jobs/<int:job_id>', methods=['GET', 'POST'])
-def job_page(job_id):
-    job = Jobs.query.filter_by(id=job_id).first_or_404()
-    sk = job.JSkills.all()
-    return render_template('Jobs/single-job-page.html', job=job, sk=sk)
-
-@public.route('/jobs')
+@public.route('/projeler')
 def browseTasks():
     with open("category.json") as category:
         categories = json.load(category)

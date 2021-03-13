@@ -198,7 +198,7 @@
 				</div>
 
 				{% if current_user.is_anonymous %}
-					<form method="POST", action="{{ url_for('public.task_page', task_id= task.id) }}">
+					<form method="POST", action="{{ url_for('public.task_page', task_url= task.generate_task_link()) }}">
 						<input type='hidden' name="csrf_token" value="{{ csrf_token() }}"/>
 					<div class="sidebar-widget">
 						<div class="bidding-widget">
@@ -245,7 +245,7 @@
 					</div>
 				{% else %}
 					{% if current_user.id != task.user_id and not current_user.is_bidder(task) %}
-					<form method="POST", action="{{ url_for('public.task_page', task_id= task.id) }}">
+					<form method="POST", action="{{ url_for('public.task_page', task_url= task.generate_task_link()) }}">
 						<input type='hidden' name="csrf_token" value="{{ csrf_token() }}"/>
 					<div class="sidebar-widget">
 						<div class="bidding-widget">

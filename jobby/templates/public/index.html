@@ -223,7 +223,7 @@
 				<div class="listings-container compact-list-layout margin-top-35">
 
 					{% for f in featured_tasks %}
-						<a href="{{ url_for('public.task_page', task_id=f.id) }}" class="job-listing with-apply-button">
+						<a href="{{ url_for('public.task_page', task_url=f.generate_task_link()) }}" class="job-listing with-apply-button">
 
 							<!-- Job Listing Details -->
 							<div class="job-listing-details">

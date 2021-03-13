@@ -16,11 +16,11 @@ def post_job():
         job_type = request.form["job_type"]
         category = request.form["category"]
         location = request.form["location"]
-        salary_min = request.form["salary_min"]
-        salary_max = request.form["salary_max"]
+        salary_min = request.form["salary_min"] or 0
+        salary_max = request.form["salary_max"] or 0
         edu_level = request.form["edu_level"]
-        exp_min = request.form["exp_min"]
-        exp_max = request.form["exp_max"]
+        exp_min = request.form["exp_min"] or 0
+        exp_max = request.form["exp_max"] or 0
         military = request.form["military"]
         position_level = request.form["position_level"]
         description = bleach.clean(request.form["description"], tags=bleach.sanitizer.ALLOWED_TAGS+['u', 'br', 'p'])
@@ -31,4 +31,4 @@ def post_job():
 
         db.session.add(job)
         db.session.commit()
-        return redirect(url_for("manage.manageOffers"))
+        return redirect(url_for('public.job_page', job_url=job.generate_job_link()))

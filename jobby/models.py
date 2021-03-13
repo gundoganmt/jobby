@@ -257,7 +257,6 @@ class Tasks(db.Model):
     location = db.Column(db.String(100), nullable=True)
     notification = db.relationship('Notification', backref='notedTask', cascade='all, delete-orphan')
     time_posted = db.Column(db.DateTime, default=datetime.utcnow)
-    task_url = db.Column(db.String(150))
     user_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
     winner_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
     review = db.relationship('Reviews', backref='reviewed', cascade='all, delete-orphan')
@@ -298,14 +297,13 @@ class Jobs(db.Model):
     description = db.Column(db.Text, nullable=False)
     num_apply = db.Column(db.Integer, default=0)
     location = db.Column(db.String(25))
-    job_url = db.Column(db.String(150))
     time_posted = db.Column(db.DateTime, default=datetime.utcnow)
     company_id = db.Column(db.Integer, db.ForeignKey('Company.id'))
     appliance = db.relationship('JobApply', backref='applied', lazy='dynamic', cascade='all, delete-orphan')
     JSkills = db.relationship('Skills', secondary=JobSkills, backref=db.backref('Jobs', lazy='dynamic'), lazy='dynamic')
 
     def generate_job_link(self):
-        link = unidecode.unidecode(str(self.JobPoster) + " " + str(self.job_name) + " " + str(self.id))
+        link = unidecode.unidecode(str(self.job_name) + " " + str(self.id))
         link = link.replace(' ', '-')
 
         return link
